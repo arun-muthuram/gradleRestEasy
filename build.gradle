@@ -32,6 +32,7 @@ compile 'jstl:jstl:1.2'
 compile group: 'org.jboss.resteasy', name: 'resteasy-jaxrs', version: '3.0.4.Final'
 compile group: 'com.googlecode.objectify', name: 'objectify', version: '5.0'
 compile group: 'org.jboss.resteasy', name: 'resteasy-jackson-provider', version: '3.0.4.Final'
+compile group: 'org.jboss.resteasy', name: 'resteasy-html', version: '3.0.4.Final'
 // compile 'com.google.cloud:google-cloud:+' // Latest Cloud API's http://googlecloudplatform.github.io/google-cloud-java
 
 testCompile 'junit:junit:4.12'
@@ -49,17 +50,12 @@ appengineStage.dependsOn test
 
 appengine { // App Engine tasks configuration
 
-run { // local (dev_appserver) configuration (standard environments only)
-port = 8080 // default
-}
-
 run {
-jvmFlags = ['-Xdebug', '-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005']
-}
-
-run {
+port = 8080 
 jvmFlags = ["-Dappengine.fullscan.seconds=5"]
+jvmFlags = ["-Ddatastore.backing_store=\"E:/temp/local_db.bin\""]
 }
+
 
 deploy { // deploy configuration
 

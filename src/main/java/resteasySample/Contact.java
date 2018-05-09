@@ -25,6 +25,13 @@ public Contact(String email, String password)
 	this.email = email;
 	this.password = password;
 }
+public Contact(String name,String email,String phoneNumber)
+{
+	this.name = name;
+	this.email = email;
+	this.phoneNumber = phoneNumber;
+}
+
 public Contact(String name, String email, String password, String phoneNumber) {
 	this.name = name;
 	this.email = email;
@@ -62,6 +69,9 @@ public String getPhoneNumber() {
 public void setPhoneNumber(String phoneNumber) {
 	this.phoneNumber = phoneNumber;
 }
-
+public Long getId()
+{
+   return id;	
+}
 
 }
