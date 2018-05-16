@@ -1,0 +1,101 @@
+@charset "ISO-8859-1";
+
+.bg {
+	position: fixed;
+	background: linear-gradient(to bottom right, lightcoral, firebrick);
+	height: 100%;
+	width: 100%;
+}
+
+.panel {
+	border-radius: 15px;
+	background: linear-gradient(to top left, gainsboro, white);
+	box-shadow: 15px 15px 15px 0px rgba(0, 0, 0, 0.2);
+}
+
+li {
+	font-weight: bold;
+	width: 50%;
+	text-align: center;
+	font-family: Arial;
+	font-size: 18px;
+}
+
+.top-buffer {
+	margin-top: 50px;
+}
+
+.footer-buffer {
+     margin: 100px;	
+}
+
+.box-top-buffer {
+	margin-top: 25px;
+}
+
+.buttons {
+	text-align: center;
+}
+
+.btn-default {
+	display: inline;
+	border-radius: 15px;
+	color: white;
+	font-size: 16px;
+	font-family: Arial;
+	font-weight: bold;
+	background: black;
+	box-shadow: 10px 10px 20px 1px black;
+	width: 150px;
+	height: 50px;
+	margin-top: 20px;
+}
+
+.btn-default:hover {
+	background: white;
+	color: black;
+	transform: translate(-1px, -1px);
+	box-shadow: 20px 20px 15px 1px black;
+}
+
+.btn-default:active {
+	transform: translate(2px, 2px);
+	box-shadow: 5px 5px 15px 1px black;
+}
+
+.btn-default:focus {
+	outline: 0;
+	background: black;
+	color: white;
+}
+.footer {
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   background-color: none;
+   color: black;
+   text-align: center;
+}
+.align-right{
+	text-align:right;
+	display:inline-block;
+}
+.editclassA
+{
+	display:none;
+}
+.margintop
+{
+	margin-top:15px;
+	margin-left:20px;
+	margin-bottom:15px;
+	background-color: #555555;
+	color: white;
+	
+}
+.editclassA input
+{
+	width: 350px;
+	border-radius:5px;
+}

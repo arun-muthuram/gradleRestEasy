@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>RestAPI-v1 documentation</title>
+</head>
+<body>
+<pre>
+
+*URL    -   "/RestAPI/v1"
+ Method -   GET
+ Description - Provides API v1 documentation.
+ Response  - text/plain;SC-200
+
+*URL         -  "/RestAPI/v1/user/create"
+ Method      -  POST
+ RequestBody - {"name":String, "email":String, "password":String, "phoneNumber":String}
+ Description         - Registers the user.
+ Success Response    - application/json;SC-201      
+                       {"Success": true,
+			             "message": "contact created"}
+ Error Response      - application/json;SC-409      
+                       {"Success": false,
+			            "message": "Email already registered"}			             
+			  
+            
+*URL     -  "/RestAPI/v1/user/session"
+ Method  -  POST
+ RequestBody - {"email":String, "password":String}
+ Description - Creates a login session.
+ Success Response    - application/json;SC-200      
+                       {"Success": true,
+			            "message": "Successfully loggedin",
+			            "profileDetails":
+			                { "id":String,
+			                  "name":String,
+			                  "email",String,
+			                  "PhoneNumber":String
+			                 }
+			            }
+ Error Response      - application/json;SC-423      
+                       {"Success": false,
+			            "message": "User Account deactivated"}
+			           application/json;SC-401      
+                       {"Success": false,
+			            "message": "Invalid credentials"} 
+
+*URL     -  "/RestAPI/v1/user/session/logout"
+ Method  -  GET
+ Description - Destroys the user session(requires user to be logged in).
+ Success Response    - application/json;SC-200
+                       {"Success": true,
+			            "message": "Successfully logged out"}
+ Error Response      - application/json;SC-401
+                       {"Success": false,
+			            "message": "User not logged in"}			            
+
+*URL    -  "/RestAPI/v1/user/deactivate/{id}"
+ Method -  PATCH
+ Description - deactivates the user account(requires user to be logged in).
+ Success Response    - application/json;SC-200
+                       {"Success": true,
+			            "message": "Account successfully deactivated"}
+ Error Response      - application/json;SC-401
+                       {"Success": false,
+			            "message": "User not logged in"}
+			         - application/json;SC-401
+                       {"Success": false,
+			            "message": "Invalid credentials"}
+			            
+ 
+ 
+*URL    -  "/RestAPI/v1/user/update/{id}"
+ Method -  PATCH
+ RequestBody- {"name":String,"email":String,"phoneNumber":String}
+ Description - Updates one or more user details(requires user to be logged in).
+ Success Response    - application/json;SC-200      
+                       {"Success": true,
+			            "message": "Successfully updated",
+			            "profileDetails":
+			                { "id":String,
+			                  "name":String,
+			                  "email",String,
+			                  "PhoneNumber":String
+			                 }
+			            }
+Error Response      - application/json;SC-401
+                       {"Success": false,
+			            "message": "User not logged in"}
+			        - application/json;SC-401
+                       {"Success": false,
+			            "message": "Invalid credentials"}	
+                    - application/json;SC-422
+                       {"Success": false,
+			            "message": "no input details provided to update"}
+			       - application/json;SC-422
+                       {"Success": false,
+			            "message": "enter a valid name"}
+			       - application/json;SC-422
+                       {"Success": false,
+			            "message": "enter a valid email"}
+			       - application/json;SC-422
+                       {"Success": false,
+			            "message": "enter a valid 10 digit phone number"}	
+			       		            		            
+ 
+
+</pre>
+</body>
+</html>

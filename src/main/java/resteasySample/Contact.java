@@ -18,6 +18,9 @@ private String password;
 private String phoneNumber;
 @Index
 private Boolean active;
+@Index
+private String ProfilePicUrl;
+
 public Contact() {	
 }
 public Contact(String email, String password)
@@ -38,6 +41,7 @@ public Contact(String name, String email, String password, String phoneNumber) {
 	this.password = password;
 	this.phoneNumber = phoneNumber;
 	this.active=true;
+	
 }
 public void setActive(Boolean active) {
 	this.active = active;
@@ -72,6 +76,12 @@ public void setPhoneNumber(String phoneNumber) {
 public Long getId()
 {
    return id;	
+}
+public String getProfilePicUrl() {
+	return ProfilePicUrl;
+}
+public void setProfilePicUrl(String profilePicUrl) {
+	ProfilePicUrl = profilePicUrl;
 }
 
 }

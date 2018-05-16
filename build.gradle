@@ -33,6 +33,7 @@ compile group: 'org.jboss.resteasy', name: 'resteasy-jaxrs', version: '3.0.4.Fin
 compile group: 'com.googlecode.objectify', name: 'objectify', version: '5.0'
 compile group: 'org.jboss.resteasy', name: 'resteasy-jackson-provider', version: '3.0.4.Final'
 compile group: 'org.jboss.resteasy', name: 'resteasy-html', version: '3.0.4.Final'
+compile group: 'com.google.appengine.tools', name: 'appengine-gcs-client', version: '0.7'
 // compile 'com.google.cloud:google-cloud:+' // Latest Cloud API's http://googlecloudplatform.github.io/google-cloud-java
 
 testCompile 'junit:junit:4.12'
@@ -54,6 +55,7 @@ run {
 port = 8080 
 jvmFlags = ["-Dappengine.fullscan.seconds=5"]
 jvmFlags = ["-Ddatastore.backing_store=\"E:/temp/local_db.bin\""]
+
 }
 
 

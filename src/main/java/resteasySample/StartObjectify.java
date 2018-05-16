@@ -12,6 +12,7 @@ public class StartObjectify {
      */
     static {
     	ObjectifyService.factory().register(Contact.class);
+    	ObjectifyService.factory().register(TimerInfo.class);
         }
 
     /**

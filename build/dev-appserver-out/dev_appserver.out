@@ -1,0 +1,51 @@
+May 16, 2018 12:04:08 PM java.util.prefs.WindowsPreferences <init>
+WARNING: Could not open/create prefs root node Software\JavaSoft\Prefs at root 0x80000002. Windows RegCreateKeyEx(...) returned error code 5.
+2018-05-16 12:04:08.966:INFO::main: Logging initialized @360ms
+May 16, 2018 6:34:09 AM com.google.appengine.tools.development.jetty9.JettyContainerService initContext
+WARNING: Adding jar org.apache.taglibs.taglibs-standard-impl-1.2.5.jar to WEB-INF/lib. You might want to add a dependency in your project build system to avoid this warning.
+May 16, 2018 6:34:09 AM com.google.appengine.tools.development.jetty9.JettyContainerService initContext
+WARNING: Adding jar org.apache.taglibs.taglibs-standard-spec-1.2.5.jar to WEB-INF/lib. You might want to add a dependency in your project build system to avoid this warning.
+2018-05-16 12:04:09.347:INFO:oejs.Server:main: jetty-9.3.18.v20170406
+2018-05-16 12:04:12.532:INFO:oeja.AnnotationConfiguration:main: Scanning elapsed time=2662ms
+120 [main] INFO org.jboss.resteasy.spi.ResteasyDeployment - Deploying javax.ws.rs.core.Application: class resteasySample.RestEasyApp
+123 [main] INFO org.jboss.resteasy.spi.ResteasyDeployment - Adding singleton resource resteasySample.RESTEasyHelloWorldService from Application class resteasySample.RestEasyApp
+123 [main] INFO org.jboss.resteasy.spi.ResteasyDeployment - Adding singleton resource resteasySample.IndexService from Application class resteasySample.RestEasyApp
+2018-05-16 12:04:13.149:INFO:oejsh.ContextHandler:main: Started c.g.a.t.d.j.DevAppEngineWebAppContext@41d426b5{/,file:///C:/Users/User.FULL417-WIN.001/eclipse-workspace/gradleresteasy/build/exploded-gradleresteasy/,AVAILABLE}{C:\Users\User.FULL417-WIN.001\eclipse-workspace\gradleresteasy\build\exploded-gradleresteasy}
+2018-05-16 12:04:13.160:INFO:oejs.AbstractConnector:main: Started NetworkTrafficSelectChannelConnector@530712d{HTTP/1.1,[http/1.1]}{localhost:8080}
+2018-05-16 12:04:13.161:INFO:oejs.Server:main: Started @4555ms
+May 16, 2018 6:34:13 AM com.google.appengine.tools.development.AbstractModule startup
+INFO: Module instance default is running at http://localhost:8080/
+May 16, 2018 6:34:13 AM com.google.appengine.tools.development.AbstractModule startup
+INFO: The admin console is running at http://localhost:8080/_ah/admin
+May 16, 2018 12:04:13 PM com.google.appengine.tools.development.DevAppServerImpl doStart
+INFO: Dev App Server is now running
+May 16, 2018 12:04:25 PM com.google.appengine.api.datastore.dev.LocalDatastoreService init
+INFO: Local Datastore initialized: 
+	Type: High Replication
+	Storage: E:/temp/local_db.bin
+May 16, 2018 12:04:25 PM com.google.appengine.api.datastore.dev.LocalDatastoreService load
+INFO: Time to load datastore: 18 ms
+May 16, 2018 12:04:55 PM com.google.appengine.api.datastore.dev.LocalDatastoreService$11 run
+INFO: Time to persist datastore: 16 ms
+May 16, 2018 12:05:25 PM com.google.appengine.api.datastore.dev.LocalDatastoreService$11 run
+INFO: Time to persist datastore: 19 ms
+May 16, 2018 12:06:55 PM com.google.appengine.api.datastore.dev.LocalDatastoreService$11 run
+INFO: Time to persist datastore: 0 ms
+May 16, 2018 12:38:25 PM com.google.appengine.api.datastore.dev.LocalDatastoreService$11 run
+INFO: Time to persist datastore: 0 ms
+May 16, 2018 12:38:55 PM com.google.appengine.api.datastore.dev.LocalDatastoreService$11 run
+INFO: Time to persist datastore: 8 ms
+May 16, 2018 12:39:25 PM com.google.appengine.api.datastore.dev.LocalDatastoreService$11 run
+INFO: Time to persist datastore: 0 ms
+May 16, 2018 12:48:55 PM com.google.appengine.api.datastore.dev.LocalDatastoreService$11 run
+INFO: Time to persist datastore: 0 ms
+May 16, 2018 12:50:55 PM com.google.appengine.api.datastore.dev.LocalDatastoreService$11 run
+INFO: Time to persist datastore: 0 ms
+May 16, 2018 12:51:25 PM com.google.appengine.api.datastore.dev.LocalDatastoreService$11 run
+INFO: Time to persist datastore: 0 ms
+May 16, 2018 12:51:55 PM com.google.appengine.api.datastore.dev.LocalDatastoreService$11 run
+INFO: Time to persist datastore: 0 ms
+May 16, 2018 12:52:25 PM com.google.appengine.api.datastore.dev.LocalDatastoreService$11 run
+INFO: Time to persist datastore: 3 ms
+May 16, 2018 12:52:55 PM com.google.appengine.api.datastore.dev.LocalDatastoreService$11 run
+INFO: Time to persist datastore: 0 ms

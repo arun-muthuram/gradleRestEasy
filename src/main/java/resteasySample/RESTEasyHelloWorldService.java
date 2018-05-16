@@ -12,10 +12,16 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Context;
 import org.json.simple.JSONObject;
+
+import com.googlecode.objectify.cmd.Query;
+
 import resteasySample.Contact;
 import static resteasySample.StartObjectify.ofy;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Path("/rest-api/v1")
 public class RESTEasyHelloWorldService {
@@ -130,13 +136,14 @@ public class RESTEasyHelloWorldService {
 		Boolean login = false;
 		Contact loginresult = ofy().load().type(Contact.class).filter("email", contact.getEmail())
 				.filter("password", contact.getPassword()).first().now();
-		if (loginresult != null && loginresult.getActive())
-			login = true;
+		if (loginresult != null)
+			{if(loginresult.getActive())
+			{login = true;}
 		else {
 			result.put("Success", false);
 			result.put("message", "User Account deactivated");
 			return Response.status(423).entity(result).build();
-		}
+		}}
 
 		if (login) {
 			HttpSession session = request.getSession();
@@ -284,6 +291,48 @@ public class RESTEasyHelloWorldService {
 		
 	
 		}
+	
+	@GET
+	@Path("/user/clockin/{id}")
+	@Produces("application/json")
+	public Response clockin(@PathParam("id") String id,@Context HttpServletRequest request)
+	{
+		TimerInfo timerentry = new TimerInfo(id);
+		ofy().save().entity(timerentry).now();
+		JSONObject result = new JSONObject();
+		result.put("Success", true);
+		result.put("entryid", timerentry.getEntryId());
+		return Response.status(200).entity(result).build();
+		
+	}
+	@GET
+	@Path("user/clockout/{entryid}")
+	@Produces("application/json")
+	public Response clockout(@PathParam("entryid") String entryid,@Context HttpServletRequest request)
+	{   
+		TimerInfo timerentry = ofy().load().type(TimerInfo.class).filter("entryId",entryid).first().now();
+		timerentry.setOutTime(new Date().getTime());
+		timerentry.setCompletedStatus(true);
+		ofy().save().entity(timerentry).now();
+		JSONObject result = new JSONObject();
+		result.put("Success", true);
+		return Response.status(200).entity(result).build();
+		
+	}
+	/*@GET
+	@Path("/user/totaltime/{userid}")
+	@Produces("application/json")
+	public Response totaltime(@PathParam("userid") String userid)
+	{   long totaltimems=0;
+		List<TimerInfo> results=ofy().load().type(TimerInfo.class).filter("userId",userid).list();
+		for(TimerInfo x:results)
+		{
+			
+			
+		}*/
+		
+		
+		
 	
 	
 }
