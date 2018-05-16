@@ -310,10 +310,12 @@ public class RESTEasyHelloWorldService {
 	@Produces("application/json")
 	public Response clockout(@PathParam("entryid") String entryid,@Context HttpServletRequest request)
 	{   
-		TimerInfo timerentry = ofy().load().type(TimerInfo.class).filter("entryId",entryid).first().now();
+		
+		TimerInfo timerentry = ofy().load().type(TimerInfo.class).id(Long.parseLong(entryid)).now();
 		timerentry.setOutTime(new Date().getTime());
 		timerentry.setCompletedStatus(true);
 		ofy().save().entity(timerentry).now();
+		
 		JSONObject result = new JSONObject();
 		result.put("Success", true);
 		return Response.status(200).entity(result).build();

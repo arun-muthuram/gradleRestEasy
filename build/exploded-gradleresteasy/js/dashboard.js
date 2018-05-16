@@ -12,6 +12,24 @@ document.getElementById("logoutB").addEventListener("click", logout);
 document.getElementById("deactivateB").addEventListener("click", deactivate);
 document.getElementById("clkinB").addEventListener("click",timerEntry);
 document.getElementById("clkoutB").addEventListener("click",stopTimerEntry);
+document.onload=function(){
+	 var xHttp = new XMLHttpRequest();
+	    var url="/rest-api/v1/user/totaltime";
+	    xHttp.onload = function() {
+			if (this.readyState == 4) {
+				var result = xHttp.response;
+				var parsedResult = JSON.parse(result);
+				if(parsedResult.Success==true)
+				{
+				}
+			}
+		};
+		xHttp.open("GET", url, true);
+		xHttp.send();
+	
+	
+	
+}
 var start;
 
 function toggledetails()

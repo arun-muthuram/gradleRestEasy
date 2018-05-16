@@ -111,3 +111,6 @@ margin-top: 250px;
 margin-left: 320px;	
 color: white;
 }
+input[type="file"] {
+    display: none;
+}

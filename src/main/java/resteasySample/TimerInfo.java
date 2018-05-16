@@ -8,11 +8,9 @@ import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 @Entity
 public class TimerInfo implements Serializable {
-@Id
-private Long id;
 
-@Index
-private String entryId;
+@Id
+private Long entryId;
 @Index
 private String userId;
 @Index
@@ -31,13 +29,13 @@ private boolean completedStatus;
 	 this.inTime=new Date().getTime();
 	 this.userId=userId;
 	 this.completedStatus=false;
-	 this.entryId=""+new Date().getTime();
+	
 	 
  }
-public String getEntryId() {
+public Long getEntryId() {
 	return entryId;
 }
-public void setEntryId(String entryId) {
+public void setEntryId(Long entryId) {
 	this.entryId = entryId;
 }
 public String getUserId() {
@@ -64,10 +62,7 @@ public boolean isCompletedStatus() {
 public void setCompletedStatus(boolean completedStatus) {
 	this.completedStatus = completedStatus;
 }
-public Long getId() {
-	return id;
-}	
-	
+
 	
 	
 }

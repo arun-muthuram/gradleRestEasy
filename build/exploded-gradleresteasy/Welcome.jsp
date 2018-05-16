@@ -53,10 +53,17 @@ UploadOptions uploadOptions=Builder.withGoogleStorageBucketName("login-signup-ui
 									src="<%=profilepicurl%>" alt="profile-pic"
 									class="img-profile editpic">
 
-
-									<button data-toggle="modal" data-target="#uploadimage">
-										<span class="glyphicon glyphicon-upload"></span>
-									</button></th>
+									<form
+										action="<%=blobstoreService.createUploadUrl("/uploadhandler", uploadOptions)%>"
+										method="POST" enctype="multipart/form-data">
+										<label style="cursor:pointer" class="glyphicon glyphicon-upload">
+										<input type="file" name="profilepic"
+											accept=".jpg, .jpeg, .png" onchange="form.submit()">
+											</label>
+									</form>
+									
+										
+									</th>
 
 								<th>
 									<div class="alert editclassA">
@@ -120,25 +127,9 @@ UploadOptions uploadOptions=Builder.withGoogleStorageBucketName("login-signup-ui
 			</div>
 		</div>
 	</div>
-	<div id="uploadimage" class="modal" role="dialog">
-		<div class="modal-dialog modal-sm">
-			<div class="modal-content">
-				<div class="modal-body">
-					<form
-						action="<%=blobstoreService.createUploadUrl("/uploadhandler",uploadOptions)%>"
-						method="POST" enctype="multipart/form-data">
-						<input type="file" id="profile_pic" name="profilepic"
-							accept=".jpg, .jpeg, .png"> <input type="submit"
-							value="submit">
-					</form>
-					<div class="modal-footer">
-						<button type="button" class="btn" data-dismiss="modal">Cancel</button>
-					</div>
-
-				</div>
-			</div>
-		</div>
-	</div>
+	
+					
+	
 	<div class="top-panel text-right">
 		<p><span class="username" id="userid">${sessionScope.userInfo.name}</span>
 		<img id="profilepic" src="<%=profilepicurl%>" alt="profile-pic"
