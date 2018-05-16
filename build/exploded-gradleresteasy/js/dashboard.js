@@ -170,6 +170,8 @@ function timerEntry()
 {
 	var userid = document.getElementById("userIdI").innerHTML;
     document.getElementById("clkinB").disabled=true;
+    document.getElementById("clkinB").style.opacity = "0.3";
+    document.getElementById("clkinB").style.cursor = "not-allowed";
     var xHttp = new XMLHttpRequest();
     var url="/rest-api/v1/user/clockin/"+userid;
     xHttp.onload = function() {
@@ -219,6 +221,8 @@ function stopTimerEntry()
 			if(parsedResult.Success==true)
 			{clearInterval(start);
 			 document.getElementById("clkinB").disabled=false;
+			 document.getElementById("clkinB").style.opacity="1";
+			 document.getElementById("clkinB").style.cursor = "pointer";
 			 
 			}
 		}
