@@ -56,6 +56,7 @@ html, body {
 	border-radius: 5px;
 	border: 1px solid gray;
 	height: 89vh;
+	overflow: scroll;
 }
 
 .timer {
@@ -70,23 +71,29 @@ html, body {
 	position: absolute;
 	z-index: 1;
 }
-
-.addTB {
-	width: 100%;
-	color: white;
-	background: black;
+.timerentry
+{
+	
+	font-size: 16px;
 }
+
+	
 
 .signoutB {
 	width: 100%;
 	color: white;
 	background: black;
 }
-.addtimerdiv
+.addtimerentry
 {
-	height:50px;
+	height:40px;
 	border: 1px solid gray;
 	border-radius: 5px;
+	width: 100%;
+	color: white;
+	background: black;
+	padding-top: 5px;
+
 }
 .editclassA
 {

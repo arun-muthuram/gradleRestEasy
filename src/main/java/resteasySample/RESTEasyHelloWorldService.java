@@ -2,6 +2,7 @@ package resteasySample;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import resteasySample.PATCH;
 import javax.ws.rs.PathParam;
@@ -19,6 +20,7 @@ import resteasySample.Contact;
 import static resteasySample.StartObjectify.ofy;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -292,7 +294,7 @@ public class RESTEasyHelloWorldService {
 	
 		}
 	
-	@GET
+	@POST
 	@Path("/user/clockin/{id}")
 	@Produces("application/json")
 	public Response clockin(@PathParam("id") String id,@Context HttpServletRequest request)
@@ -302,10 +304,12 @@ public class RESTEasyHelloWorldService {
 		JSONObject result = new JSONObject();
 		result.put("Success", true);
 		result.put("entryid", timerentry.getEntryId());
+		result.put("day",new SimpleDateFormat("EEE, MMM d,").format(new Date(timerentry.getInTime())));
+		result.put("intime", new SimpleDateFormat("h:mm:ss a").format(new Date(timerentry.getInTime())));
 		return Response.status(200).entity(result).build();
 		
 	}
-	@GET
+	@PATCH
 	@Path("user/clockout/{entryid}")
 	@Produces("application/json")
 	public Response clockout(@PathParam("entryid") String entryid,@Context HttpServletRequest request)
@@ -318,6 +322,9 @@ public class RESTEasyHelloWorldService {
 		
 		JSONObject result = new JSONObject();
 		result.put("Success", true);
+		result.put("entryid", timerentry.getEntryId());
+		result.put("day",new SimpleDateFormat("EEE, MMM d,").format(new Date(timerentry.getOutTime())));
+		result.put("outtime", new SimpleDateFormat("h:mm:ss a").format(new Date(timerentry.getOutTime())));
 		return Response.status(200).entity(result).build();
 		
 	}
@@ -331,9 +338,9 @@ public class RESTEasyHelloWorldService {
 		{
 			
 			
-		}*/
+		}
 		
-		
+	}*/	
 		
 	
 	

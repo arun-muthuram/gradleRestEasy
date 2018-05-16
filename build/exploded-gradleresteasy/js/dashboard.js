@@ -1,6 +1,6 @@
 document.getElementById("profilepic").addEventListener("click",toggledetails);
 document.getElementById("userid").addEventListener("click",toggledetails);
-document.getElementById("addtimerB").addEventListener("click",addtimer);
+/*document.getElementById("addtimerB").addEventListener("click",addtimer);*/
 document.body.addEventListener("click",function(event){var eventid=event.target.id;
 if(!(eventid=="profiledetails"||eventid=="profilepic"||eventid=="userid"))
 	document.getElementById("profiledetails").style.display="none";
@@ -41,12 +41,27 @@ function toggledetails()
         x.style.display = "none";
     }	
 }
-function addtimer()
+function addInTimerEntry(day,intime,entryid)
 {
 	var parent = document.getElementById("timerlist");
-    var div=document.createElement("div");
-    div.setAttribute("class","addTB addtimerdiv");
-	parent.appendChild(div);	
+    var child=document.createElement("div");
+    child.setAttribute("class","addtimerentry");
+    child.setAttribute("id",entryid);
+    var intimeentry=document.createElement("span");
+    intimeentry.setAttribute("class","timerentry");
+    intimeentry.innerHTML=day+' '+intime+' - ';
+    child.appendChild(intimeentry);
+	parent.appendChild(child);	
+
+}
+function addOutTimerEntry(day,outtime,entryid)
+{
+	var entry = document.getElementById(entryid);
+	var outtimeentry=document.createElement("span");
+    outtimeentry.setAttribute("class","timerentry");
+    outtimeentry.innerHTML=day+' '+outtime;
+    entry.appendChild(outtimeentry);
+
 
 }
 
@@ -181,10 +196,11 @@ function timerEntry()
 			if(parsedResult.Success==true)
 			{start = setInterval(timer,1000);	
 			 document.getElementById("entryIdI").innerHTML=parsedResult.entryid;
+			 addInTimerEntry(parsedResult.day,parsedResult.intime,parsedResult.entryid);
 			}
 		}
 	};
-	xHttp.open("GET", url, true);
+	xHttp.open("POST", url, true);
 	xHttp.send();
 }
 
@@ -211,7 +227,8 @@ function timer() {
 }
 function stopTimerEntry()
 {
-	var entryid=document.getElementById("entryIdI").innerHTML;
+	if(document.getElementById("clkinB").disabled==true)
+	{var entryid=document.getElementById("entryIdI").innerHTML;
 	var xHttp = new XMLHttpRequest();
     var url="/rest-api/v1/user/clockout/"+entryid;
     xHttp.onload = function() {
@@ -219,7 +236,9 @@ function stopTimerEntry()
 			var result = xHttp.response;
 			var parsedResult = JSON.parse(result);
 			if(parsedResult.Success==true)
-			{clearInterval(start);
+			{
+			 addOutTimerEntry(parsedResult.day,parsedResult.outtime,parsedResult.entryid);	
+			 clearInterval(start);
 			 document.getElementById("clkinB").disabled=false;
 			 document.getElementById("clkinB").style.opacity="1";
 			 document.getElementById("clkinB").style.cursor = "pointer";
@@ -227,8 +246,8 @@ function stopTimerEntry()
 			}
 		}
 	};
-	xHttp.open("GET", url, true);
-	xHttp.send();
+	xHttp.open("PATCH", url, true);
+	xHttp.send();}
 }
 function pad(d) {
     return (d < 10) ? '0' + d.toString() : d.toString();

@@ -148,10 +148,10 @@ UploadOptions uploadOptions=Builder.withGoogleStorageBucketName("login-signup-ui
 		<div id="timerlist"
 			class="col-lg-4 col-md-4 col-sm-4 col-xs-4 timerlist">
 
-			<button id="addtimerB" type="button"
+			<!-- <button id="addtimerB" type="button"
 				class="btn btn-default btn-lg addTB">
 				<span class="glyphicon glyphicon-plus"></span>Add timer
-			</button>
+			</button> -->
 		</div>
 		<div
 			class="col-lg-offset-4 col-md-offset-4 
