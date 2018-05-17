@@ -53,10 +53,17 @@ UploadOptions uploadOptions=Builder.withGoogleStorageBucketName("login-signup-ui
 									src="<%=profilepicurl%>" alt="profile-pic"
 									class="img-profile editpic">
 
-
-									<button data-toggle="modal" data-target="#uploadimage">
-										<span class="glyphicon glyphicon-upload"></span>
-									</button></th>
+									<form
+										action="<%=blobstoreService.createUploadUrl("/uploadhandler", uploadOptions)%>"
+										method="POST" enctype="multipart/form-data">
+										<label style="cursor:pointer" class="glyphicon glyphicon-upload">
+										<input type="file" name="profilepic"
+											accept=".jpg, .jpeg, .png" onchange="form.submit()">
+											</label>
+									</form>
+									
+										
+									</th>
 
 								<th>
 									<div class="alert editclassA">
@@ -69,7 +76,7 @@ UploadOptions uploadOptions=Builder.withGoogleStorageBucketName("login-signup-ui
 						<tbody>
 
 							<p style="display: none;" id="userIdI">${sessionScope.userInfo.id}</p>
-
+                            <p style="display: none;" id="entryIdI"></p>
 							<tr>
 								<td class="text-info font-weight-bold">Name</td>
 								<td class="editclassB"><p id="usernameI">${sessionScope.userInfo.name}</p></td>
@@ -120,34 +127,18 @@ UploadOptions uploadOptions=Builder.withGoogleStorageBucketName("login-signup-ui
 			</div>
 		</div>
 	</div>
-	<div id="uploadimage" class="modal" role="dialog">
-		<div class="modal-dialog modal-sm">
-			<div class="modal-content">
-				<div class="modal-body">
-					<form
-						action="<%=blobstoreService.createUploadUrl("/uploadhandler",uploadOptions)%>"
-						method="POST" enctype="multipart/form-data">
-						<input type="file" id="profile_pic" name="profilepic"
-							accept=".jpg, .jpeg, .png"> <input type="submit"
-							value="submit">
-					</form>
-					<div class="modal-footer">
-						<button type="button" class="btn" data-dismiss="modal">Cancel</button>
-					</div>
-
-				</div>
-			</div>
-		</div>
-	</div>
+	
+					
+	
 	<div class="top-panel text-right">
-		<span class="username" id="userid">${sessionScope.userInfo.name}</span>
+		<p><span class="username" id="userid">${sessionScope.userInfo.name}</span>
 		<img id="profilepic" src="<%=profilepicurl%>" alt="profile-pic"
-			class="img-profile">
+			class="img-profile"></p>
 	</div>
 	<div id="profiledetails" class="profilePanel text-center"
 		style="display: none;">
 		<br>
-		<button id="profiledetailsB" data-toggle="modal"
+		<button id="profiledetailsB" data-toggle="modal" 
 			data-target="#profiledetailsmodal" class="btn btn-default signoutB">My
 			profile</button>
 		<br>
@@ -157,16 +148,21 @@ UploadOptions uploadOptions=Builder.withGoogleStorageBucketName("login-signup-ui
 		<div id="timerlist"
 			class="col-lg-4 col-md-4 col-sm-4 col-xs-4 timerlist">
 
-			<button id="addtimerB" type="button"
+			<!-- <button id="addtimerB" type="button"
 				class="btn btn-default btn-lg addTB">
 				<span class="glyphicon glyphicon-plus"></span>Add timer
-			</button>
+			</button> -->
 		</div>
 		<div
 			class="col-lg-offset-4 col-md-offset-4 
 col-sm-offset-4 
 col-xs-offset-4 col-lg-8 col-md-8 col-sm-8 col-xs-8 timerpanel">
-
+       <div class="timerdata">
+       <span id="hh">00</span><span>:</span><span id="mm">00</span><span>:</span><span id="ss">00</span>
+       </div>
+       <div class="clkB"> <button id="clkinB">Clock-in</button>
+        <button id="clkoutB">Clock-out</button>
+       </div>
 		</div>
 	</div>
 

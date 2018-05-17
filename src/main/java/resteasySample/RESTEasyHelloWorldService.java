@@ -12,6 +12,9 @@ import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Context;
+
+
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import com.googlecode.objectify.cmd.Query;
@@ -24,6 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 @Path("/rest-api/v1")
 public class RESTEasyHelloWorldService {
@@ -299,13 +303,17 @@ public class RESTEasyHelloWorldService {
 	@Produces("application/json")
 	public Response clockin(@PathParam("id") String id,@Context HttpServletRequest request)
 	{
+		SimpleDateFormat day= new SimpleDateFormat("EEE, MMM d,");
+		SimpleDateFormat time= new SimpleDateFormat("h:mm:ss a");
+		day.setTimeZone(TimeZone.getTimeZone("IST"));
+		time.setTimeZone(TimeZone.getTimeZone("IST"));
 		TimerInfo timerentry = new TimerInfo(id);
 		ofy().save().entity(timerentry).now();
 		JSONObject result = new JSONObject();
 		result.put("Success", true);
 		result.put("entryid", timerentry.getEntryId());
-		result.put("day",new SimpleDateFormat("EEE, MMM d,").format(new Date(timerentry.getInTime())));
-		result.put("intime", new SimpleDateFormat("h:mm:ss a").format(new Date(timerentry.getInTime())));
+		result.put("day",day.format(new Date(timerentry.getInTime())));
+		result.put("intime", time.format(new Date(timerentry.getInTime())));
 		return Response.status(200).entity(result).build();
 		
 	}
@@ -314,7 +322,10 @@ public class RESTEasyHelloWorldService {
 	@Produces("application/json")
 	public Response clockout(@PathParam("entryid") String entryid,@Context HttpServletRequest request)
 	{   
-		
+		SimpleDateFormat day= new SimpleDateFormat("EEE, MMM d,");
+		SimpleDateFormat time= new SimpleDateFormat("h:mm:ss a");
+		day.setTimeZone(TimeZone.getTimeZone("IST"));
+		time.setTimeZone(TimeZone.getTimeZone("IST"));
 		TimerInfo timerentry = ofy().load().type(TimerInfo.class).id(Long.parseLong(entryid)).now();
 		timerentry.setOutTime(new Date().getTime());
 		timerentry.setCompletedStatus(true);
@@ -323,25 +334,110 @@ public class RESTEasyHelloWorldService {
 		JSONObject result = new JSONObject();
 		result.put("Success", true);
 		result.put("entryid", timerentry.getEntryId());
-		result.put("day",new SimpleDateFormat("EEE, MMM d,").format(new Date(timerentry.getOutTime())));
-		result.put("outtime", new SimpleDateFormat("h:mm:ss a").format(new Date(timerentry.getOutTime())));
+		result.put("day",day.format(new Date(timerentry.getOutTime())));
+		result.put("outtime", time.format(new Date(timerentry.getOutTime())));
 		return Response.status(200).entity(result).build();
 		
 	}
-	/*@GET
-	@Path("/user/totaltime/{userid}")
+	@GET
+	@Path("/user/timerinfo/{userid}")
 	@Produces("application/json")
-	public Response totaltime(@PathParam("userid") String userid)
-	{   long totaltimems=0;
-		List<TimerInfo> results=ofy().load().type(TimerInfo.class).filter("userId",userid).list();
-		for(TimerInfo x:results)
+	public Response timerinfo(@PathParam("userid") String userid)
+	{   JSONObject result = new JSONObject();
+	    JSONArray timerentrylist = new JSONArray();
+		long totaltimems=0;
+		List<TimerInfo> timerInfoList = ofy().load().type(TimerInfo.class).filter("userId",userid).list();
+		SimpleDateFormat day= new SimpleDateFormat("EEE, MMM d,");
+		SimpleDateFormat time= new SimpleDateFormat("h:mm:ss a");
+		day.setTimeZone(TimeZone.getTimeZone("IST"));
+		time.setTimeZone(TimeZone.getTimeZone("IST"));
+		TimerInfo results=ofy().load().type(TimerInfo.class).filter("userId",userid).filter("completedStatus",false).first().now();
+		if(results==null)
 		{
 			
-			
+		   for(TimerInfo x: timerInfoList)
+		   {
+			   
+			if(sameday(new Date(x.getInTime()),new Date()))
+			{
+				totaltimems+=x.getOutTime()-x.getInTime();
+			    JSONObject timerentry = new JSONObject();
+				timerentry.put("day",day.format(new Date(x.getInTime())));
+				timerentry.put("intime",time.format(new Date(x.getInTime())));
+				timerentry.put("outtime", time.format(new Date(x.getOutTime())));
+				timerentry.put("entryid", x.getEntryId());
+			    timerentrylist.add(timerentry);
+			    
+			}
+			   
+		   }
+		   
+	
+		  result.put("Success", true);
+		   result.put("running", false);
+		   if(timerentrylist.isEmpty())
+		   {
+			   result.put("hh", 0);
+			   result.put("mm",0);
+			   result.put("ss", 0);
+			   result.put("timerentrylist", null);
+			   result.put("runningentryid", null);
+			   return Response.status(200).entity(result).build();
+			   
+			   
+			   
+		   }
+		   
+		   result.put("hh", totaltimems / 3600000);
+		   result.put("mm", (totaltimems % 3600000) / 60000);
+		   result.put("ss", ((totaltimems % 3600000) % 60000) / 1000);
+		   result.put("timerentrylist", timerentrylist);
+		   result.put("runningentryid", null);
+		   return Response.status(200).entity(result).build();
+		}
+		else
+		{
+			for(TimerInfo x: timerInfoList)
+			   {
+				if(sameday(new Date(x.getInTime()),new Date(results.getInTime()))&& x.isCompletedStatus())
+				{
+					totaltimems+=x.getOutTime()-x.getInTime();
+				    JSONObject timerentry = new JSONObject();
+					timerentry.put("day",day.format(new Date(x.getInTime())));
+					timerentry.put("intime",time.format(new Date(x.getInTime())));
+					timerentry.put("outtime", time.format(new Date(x.getOutTime())));
+					timerentry.put("entryid", x.getEntryId());
+					timerentrylist.add(timerentry);
+				}
 		}
 		
-	}*/	
+			
+			JSONObject timerentry = new JSONObject();
+			timerentry.put("day",day.format(new Date(results.getInTime())));
+		    timerentry.put("intime",time.format(new Date(results.getInTime())));
+			timerentry.put("outtime",' ');
+			timerentry.put("entryid", results.getEntryId());
+			timerentrylist.add(timerentry);
+			result.put("Success", true);
+			result.put("running", true);
+			result.put("timerentrylist", timerentrylist);
+			result.put("runningentryid",results.getEntryId() );
+			totaltimems+=new Date().getTime()-results.getInTime();
+			result.put("hh", totaltimems / 3600000);
+			   result.put("mm", (totaltimems % 3600000) / 60000);
+			   result.put("ss", ((totaltimems % 3600000) % 60000) / 1000);
+			   return Response.status(200).entity(result).build();
+			
+	}
 		
 	
 	
 }
+	private static boolean sameday(Date one, Date two)
+	{
+		SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd");
+		return fmt.format(one).equals(fmt.format(two));
+		
+		
+	}
+	}

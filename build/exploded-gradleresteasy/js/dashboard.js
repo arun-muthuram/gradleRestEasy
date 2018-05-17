@@ -1,3 +1,4 @@
+document.addEventListener("DOMContentLoaded", loadpage);
 document.getElementById("profilepic").addEventListener("click",toggledetails);
 document.getElementById("userid").addEventListener("click",toggledetails);
 /*document.getElementById("addtimerB").addEventListener("click",addtimer);*/
@@ -12,15 +13,37 @@ document.getElementById("logoutB").addEventListener("click", logout);
 document.getElementById("deactivateB").addEventListener("click", deactivate);
 document.getElementById("clkinB").addEventListener("click",timerEntry);
 document.getElementById("clkoutB").addEventListener("click",stopTimerEntry);
-document.onload=function(){
+
+function loadpage(){
+	 var userid=document.getElementById("userIdI").innerHTML;
 	 var xHttp = new XMLHttpRequest();
-	    var url="/rest-api/v1/user/totaltime";
+	    var url="/rest-api/v1/user/timerinfo/"+userid;
 	    xHttp.onload = function() {
 			if (this.readyState == 4) {
 				var result = xHttp.response;
 				var parsedResult = JSON.parse(result);
 				if(parsedResult.Success==true)
-				{
+				{   
+					document.getElementById("entryIdI").innerHTML=parsedResult.runningentryid;
+					for(i=0;i<parsedResult.timerentrylist.length;i++)
+					{
+						addInTimerEntry(parsedResult.timerentrylist[i].day,parsedResult.timerentrylist[i].intime,parsedResult.timerentrylist[i].entryid);
+						addOutTimerEntry(parsedResult.timerentrylist[i].day,parsedResult.timerentrylist[i].outtime,parsedResult.timerentrylist[i].entryid);
+					}
+					document.getElementById("hh").innerHTML=pad(parseFloat(parsedResult.hh));
+					document.getElementById("mm").innerHTML=pad(parseFloat(parsedResult.mm));
+					document.getElementById("ss").innerHTML=pad(parseFloat(parsedResult.ss));
+					if(parsedResult.running==true)
+						{
+						start = setInterval(timer,1000);
+						document.getElementById("clkinB").disabled=true;
+					    document.getElementById("clkinB").style.opacity = "0.3";
+					    document.getElementById("clkinB").style.cursor = "not-allowed";
+						
+						
+						}
+	
+					
 				}
 			}
 		};
@@ -29,7 +52,7 @@ document.onload=function(){
 	
 	
 	
-}
+};
 var start;
 
 function toggledetails()
@@ -59,7 +82,12 @@ function addOutTimerEntry(day,outtime,entryid)
 	var entry = document.getElementById(entryid);
 	var outtimeentry=document.createElement("span");
     outtimeentry.setAttribute("class","timerentry");
-    outtimeentry.innerHTML=day+' '+outtime;
+    if(outtime===' ')
+    	{
+    	outtimeentry.innerHTML=' ';
+    	}
+    else
+    {outtimeentry.innerHTML=day+' '+outtime;}
     entry.appendChild(outtimeentry);
 
 
