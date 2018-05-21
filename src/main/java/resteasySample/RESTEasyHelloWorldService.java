@@ -2,7 +2,7 @@ package resteasySample;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
+
 import javax.ws.rs.Path;
 import resteasySample.PATCH;
 import javax.ws.rs.PathParam;
@@ -12,19 +12,17 @@ import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Context;
-
+import java.util.*;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-
-import com.googlecode.objectify.cmd.Query;
 
 import resteasySample.Contact;
 import static resteasySample.StartObjectify.ofy;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -108,6 +106,7 @@ public class RESTEasyHelloWorldService {
 		return Response.status(200).entity(documentation).build();
 	}
 
+	@SuppressWarnings("unchecked")
 	@POST
 	@Path("/user/create")
 	@Consumes("application/json")
@@ -115,7 +114,8 @@ public class RESTEasyHelloWorldService {
 	public Response register(Contact contact, @Context HttpServletRequest request) {
 		contact.setActive(true);
 		JSONObject result = new JSONObject();
-		Contact results = ofy().load().type(Contact.class).filter("email", contact.getEmail()).filter("password", contact.getPassword()).first().now();
+		Contact results = ofy().load().type(Contact.class).filter("email", contact.getEmail())
+				.filter("password", contact.getPassword()).first().now();
 		System.out.println("contact result : " + results);
 		if (results != null) {
 			result.put("Success", false);
@@ -133,6 +133,7 @@ public class RESTEasyHelloWorldService {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@POST
 	@Path("/user/session")
 	@Consumes("application/json")
@@ -142,14 +143,15 @@ public class RESTEasyHelloWorldService {
 		Boolean login = false;
 		Contact loginresult = ofy().load().type(Contact.class).filter("email", contact.getEmail())
 				.filter("password", contact.getPassword()).first().now();
-		if (loginresult != null)
-			{if(loginresult.getActive())
-			{login = true;}
-		else {
-			result.put("Success", false);
-			result.put("message", "User Account deactivated");
-			return Response.status(423).entity(result).build();
-		}}
+		if (loginresult != null) {
+			if (loginresult.getActive()) {
+				login = true;
+			} else {
+				result.put("Success", false);
+				result.put("message", "User Account deactivated");
+				return Response.status(423).entity(result).build();
+			}
+		}
 
 		if (login) {
 			HttpSession session = request.getSession();
@@ -172,6 +174,7 @@ public class RESTEasyHelloWorldService {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@GET
 	@Path("/user/session/logout")
 	@Produces("application/json")
@@ -191,6 +194,7 @@ public class RESTEasyHelloWorldService {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@PATCH
 	@Path("/user/deactivate/{id}")
 	@Produces("application/json")
@@ -222,6 +226,7 @@ public class RESTEasyHelloWorldService {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@PATCH
 	@Path("/user/update/{id}")
 	@Produces("application/json")
@@ -293,18 +298,15 @@ public class RESTEasyHelloWorldService {
 			return Response.status(401).entity(result).build();
 		}
 
-	
-		
-	
-		}
-	
+	}
+
+	@SuppressWarnings("unchecked")
 	@POST
 	@Path("/user/clockin/{id}")
 	@Produces("application/json")
-	public Response clockin(@PathParam("id") String id,@Context HttpServletRequest request)
-	{
-		SimpleDateFormat day= new SimpleDateFormat("EEE, MMM d,");
-		SimpleDateFormat time= new SimpleDateFormat("h:mm:ss a");
+	public Response clockin(@PathParam("id") String id, @Context HttpServletRequest request) {
+		SimpleDateFormat day = new SimpleDateFormat("EEE, MMM d,");
+		SimpleDateFormat time = new SimpleDateFormat("h:mm:ss a");
 		day.setTimeZone(TimeZone.getTimeZone("IST"));
 		time.setTimeZone(TimeZone.getTimeZone("IST"));
 		TimerInfo timerentry = new TimerInfo(id);
@@ -312,132 +314,60 @@ public class RESTEasyHelloWorldService {
 		JSONObject result = new JSONObject();
 		result.put("Success", true);
 		result.put("entryid", timerentry.getEntryId());
-		result.put("day",day.format(new Date(timerentry.getInTime())));
+		result.put("day", day.format(new Date(timerentry.getInTime())));
 		result.put("intime", time.format(new Date(timerentry.getInTime())));
 		return Response.status(200).entity(result).build();
-		
+
 	}
+
+	@SuppressWarnings("unchecked")
 	@PATCH
 	@Path("user/clockout/{entryid}")
 	@Produces("application/json")
-	public Response clockout(@PathParam("entryid") String entryid,@Context HttpServletRequest request)
-	{   
-		SimpleDateFormat day= new SimpleDateFormat("EEE, MMM d,");
-		SimpleDateFormat time= new SimpleDateFormat("h:mm:ss a");
-		day.setTimeZone(TimeZone.getTimeZone("IST"));
-		time.setTimeZone(TimeZone.getTimeZone("IST"));
+	public Response clockout(@PathParam("entryid") String entryid, @Context HttpServletRequest request) {
 		TimerInfo timerentry = ofy().load().type(TimerInfo.class).id(Long.parseLong(entryid)).now();
 		timerentry.setOutTime(new Date().getTime());
 		timerentry.setCompletedStatus(true);
 		ofy().save().entity(timerentry).now();
-		
+
 		JSONObject result = new JSONObject();
 		result.put("Success", true);
 		result.put("entryid", timerentry.getEntryId());
-		result.put("day",day.format(new Date(timerentry.getOutTime())));
-		result.put("outtime", time.format(new Date(timerentry.getOutTime())));
+		result.put("outtime", timerentry.getOutTime());
 		return Response.status(200).entity(result).build();
-		
+
 	}
+
+	@SuppressWarnings("unchecked")
 	@GET
 	@Path("/user/timerinfo/{userid}")
 	@Produces("application/json")
-	public Response timerinfo(@PathParam("userid") String userid)
-	{   JSONObject result = new JSONObject();
-	    JSONArray timerentrylist = new JSONArray();
-		long totaltimems=0;
-		List<TimerInfo> timerInfoList = ofy().load().type(TimerInfo.class).filter("userId",userid).list();
-		SimpleDateFormat day= new SimpleDateFormat("EEE, MMM d,");
-		SimpleDateFormat time= new SimpleDateFormat("h:mm:ss a");
-		day.setTimeZone(TimeZone.getTimeZone("IST"));
-		time.setTimeZone(TimeZone.getTimeZone("IST"));
-		TimerInfo results=ofy().load().type(TimerInfo.class).filter("userId",userid).filter("completedStatus",false).first().now();
-		if(results==null)
+	public Response timerinfo(@PathParam("userid") String userid) {
+		 JSONObject result = new JSONObject();
+		 JSONArray thisWeekEntries= new JSONArray();
+		 Calendar today = Calendar. getInstance();
+		 today.setTime(new Date());
+		 Calendar entryDay = Calendar.getInstance();
+		List<TimerInfo> timerInfoList = ofy().load().type(TimerInfo.class).filter("userId", userid).list();
+		for(TimerInfo x: timerInfoList)
 		{
-			
-		   for(TimerInfo x: timerInfoList)
-		   {
-			   
-			if(sameday(new Date(x.getInTime()),new Date()))
+			entryDay.setTime(new Date(x.getInTime()));
+	        if(entryDay.get(entryDay.WEEK_OF_YEAR)==today.get(today.WEEK_OF_YEAR))
 			{
-				totaltimems+=x.getOutTime()-x.getInTime();
-			    JSONObject timerentry = new JSONObject();
-				timerentry.put("day",day.format(new Date(x.getInTime())));
-				timerentry.put("intime",time.format(new Date(x.getInTime())));
-				timerentry.put("outtime", time.format(new Date(x.getOutTime())));
+	        	JSONObject timerentry = new JSONObject();
+				timerentry.put("intime", x.getInTime());
+				timerentry.put("outtime", x.getOutTime());
 				timerentry.put("entryid", x.getEntryId());
-			    timerentrylist.add(timerentry);
-			    
+				thisWeekEntries.add(timerentry);
+
 			}
-			   
-		   }
-		   
-	
-		  result.put("Success", true);
-		   result.put("running", false);
-		   if(timerentrylist.isEmpty())
-		   {
-			   result.put("hh", 0);
-			   result.put("mm",0);
-			   result.put("ss", 0);
-			   result.put("timerentrylist", null);
-			   result.put("runningentryid", null);
-			   return Response.status(200).entity(result).build();
-			   
-			   
-			   
-		   }
-		   
-		   result.put("hh", totaltimems / 3600000);
-		   result.put("mm", (totaltimems % 3600000) / 60000);
-		   result.put("ss", ((totaltimems % 3600000) % 60000) / 1000);
-		   result.put("timerentrylist", timerentrylist);
-		   result.put("runningentryid", null);
-		   return Response.status(200).entity(result).build();
+			
 		}
-		else
-		{
-			for(TimerInfo x: timerInfoList)
-			   {
-				if(sameday(new Date(x.getInTime()),new Date(results.getInTime()))&& x.isCompletedStatus())
-				{
-					totaltimems+=x.getOutTime()-x.getInTime();
-				    JSONObject timerentry = new JSONObject();
-					timerentry.put("day",day.format(new Date(x.getInTime())));
-					timerentry.put("intime",time.format(new Date(x.getInTime())));
-					timerentry.put("outtime", time.format(new Date(x.getOutTime())));
-					timerentry.put("entryid", x.getEntryId());
-					timerentrylist.add(timerentry);
-				}
-		}
+		result.put("Success", true);
+		result.put("thisWeekEntries", thisWeekEntries);
+		return Response.status(200).entity(result).build();
 		
-			
-			JSONObject timerentry = new JSONObject();
-			timerentry.put("day",day.format(new Date(results.getInTime())));
-		    timerentry.put("intime",time.format(new Date(results.getInTime())));
-			timerentry.put("outtime",' ');
-			timerentry.put("entryid", results.getEntryId());
-			timerentrylist.add(timerentry);
-			result.put("Success", true);
-			result.put("running", true);
-			result.put("timerentrylist", timerentrylist);
-			result.put("runningentryid",results.getEntryId() );
-			totaltimems+=new Date().getTime()-results.getInTime();
-			result.put("hh", totaltimems / 3600000);
-			   result.put("mm", (totaltimems % 3600000) / 60000);
-			   result.put("ss", ((totaltimems % 3600000) % 60000) / 1000);
-			   return Response.status(200).entity(result).build();
-			
+	
 	}
 		
-	
-	
 }
-	private static boolean sameday(Date one, Date two)
-	{
-		SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd");
-		return fmt.format(one).equals(fmt.format(two));
-		
-		
-	}
-	}

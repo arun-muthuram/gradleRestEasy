@@ -75,6 +75,7 @@ html, body {
 {
 	
 	font-size: 16px;
+	color: white;
 }
 
 	
@@ -93,6 +94,7 @@ html, body {
 	color: white;
 	background: black;
 	padding-top: 5px;
+	margin-top: 20px;
 
 }
 .editclassA
@@ -120,4 +122,16 @@ color: white;
 }
 input[type="file"] {
     display: none;
+}
+.addentry
+{
+	height:35px;
+	border: 1px solid gray;
+	border-radius: 5px;
+	width: 100%;
+	color: black;
+	background: white;
+	padding-top: 3px;
+	padding-left: 10px;
+	
 }

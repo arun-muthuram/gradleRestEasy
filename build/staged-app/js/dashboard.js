@@ -1,97 +1,222 @@
 document.addEventListener("DOMContentLoaded", loadpage);
-document.getElementById("profilepic").addEventListener("click",toggledetails);
-document.getElementById("userid").addEventListener("click",toggledetails);
-/*document.getElementById("addtimerB").addEventListener("click",addtimer);*/
-document.body.addEventListener("click",function(event){var eventid=event.target.id;
-if(!(eventid=="profiledetails"||eventid=="profilepic"||eventid=="userid"))
-	document.getElementById("profiledetails").style.display="none";
-});
+document.getElementById("profilepic").addEventListener("click", toggledetails);
+document.getElementById("userid").addEventListener("click", toggledetails);
+/* document.getElementById("addtimerB").addEventListener("click",addtimer); */
+document.body
+		.addEventListener(
+				"click",
+				function(event) {
+					var eventid = event.target.id;
+					if (!(eventid == "profiledetails"
+							|| eventid == "profilepic" || eventid == "userid"))
+						document.getElementById("profiledetails").style.display = "none";
+				});
 document.getElementById("editB").addEventListener("click", edit);
 document.getElementById("cancelB").addEventListener("click", dashboard);
 document.getElementById("updateB").addEventListener("click", update);
 document.getElementById("logoutB").addEventListener("click", logout);
 document.getElementById("deactivateB").addEventListener("click", deactivate);
-document.getElementById("clkinB").addEventListener("click",timerEntry);
-document.getElementById("clkoutB").addEventListener("click",stopTimerEntry);
-
-function loadpage(){
-	 var userid=document.getElementById("userIdI").innerHTML;
-	 var xHttp = new XMLHttpRequest();
-	    var url="/rest-api/v1/user/timerinfo/"+userid;
-	    xHttp.onload = function() {
-			if (this.readyState == 4) {
-				var result = xHttp.response;
-				var parsedResult = JSON.parse(result);
-				if(parsedResult.Success==true)
-				{   
-					document.getElementById("entryIdI").innerHTML=parsedResult.runningentryid;
-					for(i=0;i<parsedResult.timerentrylist.length;i++)
-					{
-						addInTimerEntry(parsedResult.timerentrylist[i].day,parsedResult.timerentrylist[i].intime,parsedResult.timerentrylist[i].entryid);
-						addOutTimerEntry(parsedResult.timerentrylist[i].day,parsedResult.timerentrylist[i].outtime,parsedResult.timerentrylist[i].entryid);
-					}
-					document.getElementById("hh").innerHTML=pad(parseFloat(parsedResult.hh));
-					document.getElementById("mm").innerHTML=pad(parseFloat(parsedResult.mm));
-					document.getElementById("ss").innerHTML=pad(parseFloat(parsedResult.ss));
-					if(parsedResult.running==true)
-						{
-						start = setInterval(timer,1000);
-						document.getElementById("clkinB").disabled=true;
-					    document.getElementById("clkinB").style.opacity = "0.3";
-					    document.getElementById("clkinB").style.cursor = "not-allowed";
-						
-						
-						}
-	
-					
+document.getElementById("clkinB").addEventListener("click", timerEntry);
+document.getElementById("clkoutB").addEventListener("click", stopTimerEntry);
+var running=false;
+var runningEntryParentid;
+var runningEntryid;
+function loadpage() {
+	var userid = document.getElementById("userIdI").innerHTML;
+	var xHttp = new XMLHttpRequest();
+	var url = "/rest-api/v1/user/timerinfo/" + userid;
+	xHttp.onload = function() {
+		if (this.readyState == 4) {
+			var result = xHttp.response;
+			var parsedResult = JSON.parse(result);
+			if (parsedResult.Success == true) {
+			clearpanel();
+			listdays();
+			parsedResult.thisWeekEntries.sort(sortEntries("intime"));
+			for(var i=0;i<parsedResult.thisWeekEntries.length;i++)
+				{
+				addEntries(parsedResult.thisWeekEntries[i].entryid,parsedResult.thisWeekEntries[i].intime,parsedResult.thisWeekEntries[i].outtime);
 				}
+				setDailyDuration();
+				inittimer(running);
+				
+				/*document.getElementById("entryIdI").innerHTML = parsedResult.runningentryid;
+				for (i = 0; i < parsedResult.timerentrylist.length; i++) {
+					addInTimerEntry(parsedResult.timerentrylist[i].day,
+							parsedResult.timerentrylist[i].intime,
+							parsedResult.timerentrylist[i].entryid);
+					addOutTimerEntry(parsedResult.timerentrylist[i].day,
+							parsedResult.timerentrylist[i].outtime,
+							parsedResult.timerentrylist[i].entryid);
+				}
+				document.getElementById("hh").innerHTML = pad(parseFloat(parsedResult.hh));
+				document.getElementById("mm").innerHTML = pad(parseFloat(parsedResult.mm));
+				document.getElementById("ss").innerHTML = pad(parseFloat(parsedResult.ss));
+				if (parsedResult.running == true) {
+					start = setInterval(timer, 1000);
+					document.getElementById("clkinB").disabled = true;
+					document.getElementById("clkinB").style.opacity = "0.3";
+					document.getElementById("clkinB").style.cursor = "not-allowed";*/
+
+				}
+
 			}
-		};
-		xHttp.open("GET", url, true);
-		xHttp.send();
-	
-	
-	
+		
+	};
+	xHttp.open("GET", url, true);
+	xHttp.send();
+
 };
+
+function clearpanel(){
+	var myNode = document.getElementById("timerlist");
+	var fc = myNode.firstChild;
+
+	while( fc ) {
+	    myNode.removeChild( fc );
+	    fc = myNode.firstChild;
+	}
+	
+	
+	
+}
+function sortEntries(intime) {  
+    return function(a, b) {  
+        if (a[intime] < b[intime]) {  
+            return 1;  
+        } else if (a[intime] > b[intime]) {  
+            return -1;  
+        }  
+        return 0;  
+    }  
+}  
+
+function listdays(){
+	var parent = document.getElementById("timerlist");
+	var dayFactor=0;
+	var d = new Date();
+    var n = d.getDay();
+    for(var i=n; i>=0;i--)
+    {	
+    d = new Date();	
+	var child = document.createElement("div");
+	child.setAttribute("class","addtimerentry");
+	
+	var day=document.createElement("span");
+	day.setAttribute("class","timerentry");
+	var entrydate=d.getDate()-(dayFactor++);
+	d.setDate(entrydate);
+	day.innerHTML=toDay(d);
+	child.appendChild(day);
+	child.setAttribute("id",toDay(d));
+	var dailyTime=document.createElement("span");
+	dailyTime.setAttribute("id",'DT'+toDay(d));
+	dailyTime.setAttribute("style","display:none");
+	dailyTime.innerHTML=0;
+	child.appendChild(dailyTime);
+	var dailyDuration=document.createElement("span");
+	dailyDuration.setAttribute("id",'DD'+toDay(d));
+	dailyDuration.setAttribute("class","timerentry");
+	dailyDuration.setAttribute("style","margin-left:180px")
+	child.appendChild(dailyDuration);
+	parent.appendChild(child);	
+    }
+	
+}
+function setDailyDuration()
+{
+	var list = document.getElementsByClassName("addtimerentry");
+	for (var i = 0; i < list.length; i++) {
+	    var id = list[i].id;
+		document.getElementById('DD'+id).innerHTML=durationCalc(parseFloat(document.getElementById('DT'+id).innerHTML));
+	}
+
+}
+function toDay(date)
+{
+	var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+	 var day =["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+	return  day[date.getDay()]+',  '+months[date.getMonth()]+' '+date.getDate();	
+
+
+}
+function addEntries(entryid,intime,outtime)
+{
+	var parent = document.getElementById(toDay(new Date(intime)));
+	var entrychild=document.createElement("div");
+	entrychild.setAttribute("id",entryid);
+	entrychild.setAttribute("class","addentry");
+	if(outtime==0)
+		{
+		entrychild.innerHTML='\xa0\xa0\xa0\xa0\xa0\xa0'+entryTime(new Date(intime))+'\xa0\xa0 -\xa0\xa0 Ongoing...'+'.\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0 '+durationCalc(new Date().getTime()-intime);
+	    running=true;
+	    document.getElementById("DT"+toDay(new Date(intime))).innerHTML=parseFloat(document.getElementById("DT"+toDay(new Date(intime))).innerHTML) + parseFloat(new Date().getTime()-intime);
+	    runningEntryParentid=parent.id;
+	    runningEntryid=entryid;
+		}
+	else
+	    {
+		entrychild.innerHTML='\xa0\xa0\xa0\xa0\xa0\xa0'+entryTime(new Date(intime))+'\xa0\xa0 -\xa0\xa0 '+entryTime(new Date(outtime))+'.\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0 '+durationCalc(outtime-intime);
+	    document.getElementById("DT"+toDay(new Date(intime))).innerHTML=parseFloat(document.getElementById("DT"+toDay(new Date(intime))).innerHTML) + parseFloat(outtime-intime);
+	    }
+    parent.appendChild(entrychild);
+    
+    
+}
+function entryTime(date)
+{
+	if(date.getHours()<12)
+		{
+		return padHours(date.getHours())+':'+pad(date.getMinutes())+':'+pad(date.getSeconds())+' AM';
+		}
+	else
+		{
+		return padHours(date.getHours())+':'+pad(date.getMinutes())+':'+pad(date.getSeconds())+' PM';
+		}
+
+}
+function durationCalc(milli)
+{
+	
+	return pad(Math.floor(milli / 3600000))+'h, '+pad(Math.floor((milli % 3600000) / 60000))+'m.';
+	
+
+}
+
 var start;
 
-function toggledetails()
-{
+function toggledetails() {
 	var x = document.getElementById("profiledetails");
-    if (x.style.display === "none") {
-        x.style.display = "block";
-    } else {
-        x.style.display = "none";
-    }	
+	if (x.style.display === "none") {
+		x.style.display = "block";
+	} else {
+		x.style.display = "none";
+	}
 }
-function addInTimerEntry(day,intime,entryid)
-{
+/*function addInTimerEntry(day, intime, entryid) {
 	var parent = document.getElementById("timerlist");
-    var child=document.createElement("div");
-    child.setAttribute("class","addtimerentry");
-    child.setAttribute("id",entryid);
-    var intimeentry=document.createElement("span");
-    intimeentry.setAttribute("class","timerentry");
-    intimeentry.innerHTML=day+' '+intime+' - ';
-    child.appendChild(intimeentry);
-	parent.appendChild(child);	
+	var child = document.createElement("div");
+	child.setAttribute("class", "addtimerentry");
+	child.setAttribute("id", entryid);
+	var intimeentry = document.createElement("span");
+	intimeentry.setAttribute("class", "timerentry");
+	intimeentry.innerHTML = day + ' ' + intime + ' - ';
+	child.appendChild(intimeentry);
+	parent.appendChild(child);
 
 }
-function addOutTimerEntry(day,outtime,entryid)
-{
+function addOutTimerEntry(day, outtime, entryid) {
 	var entry = document.getElementById(entryid);
-	var outtimeentry=document.createElement("span");
-    outtimeentry.setAttribute("class","timerentry");
-    if(outtime===' ')
-    	{
-    	outtimeentry.innerHTML=' ';
-    	}
-    else
-    {outtimeentry.innerHTML=day+' '+outtime;}
-    entry.appendChild(outtimeentry);
+	var outtimeentry = document.createElement("span");
+	outtimeentry.setAttribute("class", "timerentry");
+	if (outtime === ' ') {
+		outtimeentry.innerHTML = ' ';
+	} else {
+		outtimeentry.innerHTML = day + ' ' + outtime;
+	}
+	entry.appendChild(outtimeentry);
 
-
-}
+}*/
 
 function edit() {
 	var hide = document.getElementsByClassName("editclassB");
@@ -149,7 +274,6 @@ function update() {
 			email : updateEmail,
 			phoneNumber : updateNumber
 		}));
-		
 
 	}
 }
@@ -209,75 +333,107 @@ function validate(name, email, phonenumber) {
 	return true;
 
 }
-function timerEntry()
-{
+function timerEntry() {
 	var userid = document.getElementById("userIdI").innerHTML;
-    document.getElementById("clkinB").disabled=true;
-    document.getElementById("clkinB").style.opacity = "0.3";
-    document.getElementById("clkinB").style.cursor = "not-allowed";
-    var xHttp = new XMLHttpRequest();
-    var url="/rest-api/v1/user/clockin/"+userid;
-    xHttp.onload = function() {
+	document.getElementById("clkinB").disabled = true;
+	document.getElementById("clkinB").style.opacity = "0.3";
+	document.getElementById("clkinB").style.cursor = "not-allowed";
+	var xHttp = new XMLHttpRequest();
+	var url = "/rest-api/v1/user/clockin/" + userid;
+	xHttp.onload = function() {
 		if (this.readyState == 4) {
 			var result = xHttp.response;
 			var parsedResult = JSON.parse(result);
-			if(parsedResult.Success==true)
-			{start = setInterval(timer,1000);	
-			 document.getElementById("entryIdI").innerHTML=parsedResult.entryid;
-			 addInTimerEntry(parsedResult.day,parsedResult.intime,parsedResult.entryid);
+			if (parsedResult.Success == true) {
+				loadpage();
 			}
 		}
 	};
 	xHttp.open("POST", url, true);
 	xHttp.send();
 }
+function inittimer(running){
+	if(running)
+		{
+		var milli=document.getElementById('DT'+runningEntryParentid).innerHTML;	
+		}
+	else
+		{
+		var list= document.getElementsByClassName("addtimerentry");
+		var milli=document.getElementById('DT'+list[0].id).innerHTML;
+		}
+	document.getElementById("hh").innerHTML = pad(Math.floor(milli / 3600000));
+	document.getElementById("mm").innerHTML = pad(Math.floor((milli % 3600000) / 60000));
+	document.getElementById("ss").innerHTML = pad(Math.floor(((milli% 3600000) % 60000) / 1000));
+	if(running)
+	{start = setInterval(starttimer, 1000);
+	document.getElementById("clkinB").disabled = true;
+	document.getElementById("clkinB").style.opacity = "0.3";
+	document.getElementById("clkinB").style.cursor = "not-allowed";
+	}
+	
+	
+	
+}
 
-function timer() {
-
+function starttimer() {
+    
+	
+	
 	if (parseFloat(document.getElementById("ss").innerHTML) === 59) {
 		document.getElementById("ss").innerHTML = pad(00);
-			document.getElementById("mm").innerHTML = pad(parseFloat(document
-					.getElementById("mm").innerHTML) + 1);
+		document.getElementById("mm").innerHTML = pad(parseFloat(document
+				.getElementById("mm").innerHTML) + 1);
 		if (parseFloat(document.getElementById("mm").innerHTML) === 59) {
 			document.getElementById("mm").innerHTML = pad(00);
-				document.getElementById("hh").innerHTML = pad(parseFloat(document
-						.getElementById("hh").innerHTML) + 1);
+			document.getElementById("hh").innerHTML = pad(parseFloat(document
+					.getElementById("hh").innerHTML) + 1);
 
 		}
 	} else {
 
-		
-		
-			document.getElementById("ss").innerHTML = pad(parseFloat(document
-					.getElementById("ss").innerHTML) + 1);
+		document.getElementById("ss").innerHTML = pad(parseFloat(document
+				.getElementById("ss").innerHTML) + 1);
 	}
 
 }
-function stopTimerEntry()
-{
-	if(document.getElementById("clkinB").disabled==true)
-	{var entryid=document.getElementById("entryIdI").innerHTML;
-	var xHttp = new XMLHttpRequest();
-    var url="/rest-api/v1/user/clockout/"+entryid;
-    xHttp.onload = function() {
-		if (this.readyState == 4) {
-			var result = xHttp.response;
-			var parsedResult = JSON.parse(result);
-			if(parsedResult.Success==true)
-			{
-			 addOutTimerEntry(parsedResult.day,parsedResult.outtime,parsedResult.entryid);	
-			 clearInterval(start);
-			 document.getElementById("clkinB").disabled=false;
-			 document.getElementById("clkinB").style.opacity="1";
-			 document.getElementById("clkinB").style.cursor = "pointer";
-			 
+function stopTimerEntry() {
+	if (document.getElementById("clkinB").disabled == true) {
+		var entryid = runningEntryid;
+		var xHttp = new XMLHttpRequest();
+		var url = "/rest-api/v1/user/clockout/" + entryid;
+		xHttp.onload = function() {
+			if (this.readyState == 4) {
+				var result = xHttp.response;
+				var parsedResult = JSON.parse(result);
+				if (parsedResult.Success == true) {
+					clearInterval(start);
+					document.getElementById("clkinB").disabled = false;
+					document.getElementById("clkinB").style.opacity = "1";
+					document.getElementById("clkinB").style.cursor = "pointer";
+					running=false;
+                    loadpage();
+				}
 			}
-		}
-	};
-	xHttp.open("PATCH", url, true);
-	xHttp.send();}
-}
-function pad(d) {
-    return (d < 10) ? '0' + d.toString() : d.toString();
+		};
+		xHttp.open("PATCH", url, true);
+		xHttp.send();
+	}
 }
 
+function pad(d)
+{
+	return (d < 10) ? '0' + d.toString() : d.toString();
+}
+function padHours(d) {
+	
+	if(d>12)
+		d-=12;
+	if(d==0)
+		return '12';
+	if(d<10)
+	return '0' + d.toString();
+	else 
+		return d;
+		
+}
