@@ -1,6 +1,14 @@
 document.getElementById("signupb").addEventListener("click", register);
 document.getElementById("signupl").addEventListener("click", login);
-
+document.getElementById("gsignB").addEventListener("click", oauth);
+document.addEventListener("DOMContentLoaded", function(){
+	if(document.getElementById("error").innerHTML=="Google signin failed")
+		{
+		setTimeout(function() {
+			location.replace("/")
+		},800);
+		}
+});
 function register() {
 	var name = document.getElementById("name").value;
 	var email = document.getElementById("email").value;
@@ -87,5 +95,16 @@ function validate(name, email, password, phonenumber) {
 		return false;
 	}
 	return true;
+
+}
+function oauth()
+{
+	var url="https://accounts.google.com/o/oauth2/v2/auth?"
+		 +"scope=https://www.googleapis.com/auth/userinfo.email&"
+		 +"redirect_uri=https://login-signup-ui.appspot.com/oauth/callback&"
+		 +"response_type=code&"+
+		 "client_id=1062085927305-i99h2o72tn8ptdh8ft7kne26pkosbtni.apps.googleusercontent.com";
+	window.location=url;
+
 
 }

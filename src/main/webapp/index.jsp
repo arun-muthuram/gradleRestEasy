@@ -21,13 +21,14 @@ if((Contact)session.getAttribute("userInfo")!=null)
 </head>
 
 <body>
-
+<%String message="";
+                if(request.getParameter("message")!=null)
+                	message=(String)(request.getParameter("message"));
+                	%>
 	<div class="bg">
 		<div class="container">
 			<div class="alert">
-				<p class="text-center text-light font-weight-bold h3" id="error">
-
-				</p>
+				<p class="text-center text-light font-weight-bold h3" id="error"><%=message%></p>
 			</div>
 			<div class="row top-buffer"></div>
 			<div
@@ -84,8 +85,13 @@ if((Contact)session.getAttribute("userInfo")!=null)
 										name="pwd" required>
 								</div>
 								<div class="buttons">
-									<button id="signupl" type="button" class="btn-default btn-lg">Login</button>
+									<button id="signupl" type="button" class="btn-default btn-lg"
+										style="margin-top: -5px;">Login</button>
+
 								</div>
+								<a id="gsignB" style="cursor: pointer;"><img
+									src="http://images.sb.a-cti.com/images/Google signin_Red_Long.png"
+									style="width: 156px; margin-left: 179px; height: 46px; border-radius: 44px; margin-top: 12px;"></a>
 							</form>
 						</div>
 					</div>

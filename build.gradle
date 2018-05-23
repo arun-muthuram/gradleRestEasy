@@ -28,7 +28,7 @@ compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1'
 compile 'jstl:jstl:1.2'
 
 // Add your dependencies here
-
+compile group: 'org.jboss.resteasy', name: 'resteasy-client', version: '3.0.4.Final'
 compile group: 'org.jboss.resteasy', name: 'resteasy-jaxrs', version: '3.0.4.Final'
 compile group: 'com.googlecode.objectify', name: 'objectify', version: '5.0'
 compile group: 'org.jboss.resteasy', name: 'resteasy-jackson-provider', version: '3.0.4.Final'
