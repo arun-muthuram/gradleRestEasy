@@ -10,6 +10,7 @@ import javax.ws.rs.Produces;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Context;
 import java.util.*;
@@ -305,17 +306,12 @@ public class RESTEasyHelloWorldService {
 	@Path("/user/clockin/{id}")
 	@Produces("application/json")
 	public Response clockin(@PathParam("id") String id, @Context HttpServletRequest request) {
-		SimpleDateFormat day = new SimpleDateFormat("EEE, MMM d,");
-		SimpleDateFormat time = new SimpleDateFormat("h:mm:ss a");
-		day.setTimeZone(TimeZone.getTimeZone("IST"));
-		time.setTimeZone(TimeZone.getTimeZone("IST"));
 		TimerInfo timerentry = new TimerInfo(id);
 		ofy().save().entity(timerentry).now();
 		JSONObject result = new JSONObject();
 		result.put("Success", true);
 		result.put("entryid", timerentry.getEntryId());
-		result.put("day", day.format(new Date(timerentry.getInTime())));
-		result.put("intime", time.format(new Date(timerentry.getInTime())));
+		result.put("intime",timerentry.getInTime());
 		return Response.status(200).entity(result).build();
 
 	}
@@ -368,6 +364,28 @@ public class RESTEasyHelloWorldService {
 		return Response.status(200).entity(result).build();
 		
 	
+	}
+	@SuppressWarnings("unchecked")
+	@DELETE
+	@Path("/user/delete/entry/{entryid}")
+	@Produces("application/json")
+	public Response deleteEntry(@PathParam("entryid") String entryidString)
+	{
+		Long entryid=Long.parseLong(entryidString); 
+		JSONObject result = new JSONObject();
+		 ofy().delete().type(TimerInfo.class).id(entryid).now();
+		if(ofy().load().type(TimerInfo.class).id(entryid).now()==null)
+		 {result.put("Success", true);
+		 result.put("message", "entry deleted.");
+		 return Response.status(200).entity(result).build();}
+		else
+		{
+			result.put("Success", false);
+			 result.put("message", "entry deletion failed.");
+			 return Response.status(200).entity(result).build();
+			
+		}
+		
 	}
 		
 }

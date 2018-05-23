@@ -1,37 +1,35 @@
-May 20, 2018 10:18:36 PM java.util.prefs.WindowsPreferences <init>
+May 22, 2018 3:31:36 PM java.util.prefs.WindowsPreferences <init>
 WARNING: Could not open/create prefs root node Software\JavaSoft\Prefs at root 0x80000002. Windows RegCreateKeyEx(...) returned error code 5.
-2018-05-20 22:18:36.715:INFO::main: Logging initialized @378ms
-May 20, 2018 4:48:36 PM com.google.appengine.tools.development.jetty9.JettyContainerService initContext
+2018-05-22 15:31:36.217:INFO::main: Logging initialized @360ms
+May 22, 2018 10:01:36 AM com.google.appengine.tools.development.jetty9.JettyContainerService initContext
 WARNING: Adding jar org.apache.taglibs.taglibs-standard-impl-1.2.5.jar to WEB-INF/lib. You might want to add a dependency in your project build system to avoid this warning.
-May 20, 2018 4:48:37 PM com.google.appengine.tools.development.jetty9.JettyContainerService initContext
+May 22, 2018 10:01:36 AM com.google.appengine.tools.development.jetty9.JettyContainerService initContext
 WARNING: Adding jar org.apache.taglibs.taglibs-standard-spec-1.2.5.jar to WEB-INF/lib. You might want to add a dependency in your project build system to avoid this warning.
-2018-05-20 22:18:37.103:INFO:oejs.Server:main: jetty-9.3.18.v20170406
-2018-05-20 22:18:40.578:INFO:oeja.AnnotationConfiguration:main: Scanning elapsed time=2889ms
-123 [main] INFO org.jboss.resteasy.spi.ResteasyDeployment - Deploying javax.ws.rs.core.Application: class resteasySample.RestEasyApp
-127 [main] INFO org.jboss.resteasy.spi.ResteasyDeployment - Adding singleton resource resteasySample.RESTEasyHelloWorldService from Application class resteasySample.RestEasyApp
-127 [main] INFO org.jboss.resteasy.spi.ResteasyDeployment - Adding singleton resource resteasySample.IndexService from Application class resteasySample.RestEasyApp
-2018-05-20 22:18:41.209:INFO:oejsh.ContextHandler:main: Started c.g.a.t.d.j.DevAppEngineWebAppContext@41d426b5{/,file:///C:/Users/User.FULL417-WIN.001/eclipse-workspace/gradleresteasy/build/exploded-gradleresteasy/,AVAILABLE}{C:\Users\User.FULL417-WIN.001\eclipse-workspace\gradleresteasy\build\exploded-gradleresteasy}
-2018-05-20 22:18:41.220:INFO:oejs.AbstractConnector:main: Started NetworkTrafficSelectChannelConnector@530712d{HTTP/1.1,[http/1.1]}{localhost:8080}
-2018-05-20 22:18:41.221:INFO:oejs.Server:main: Started @4883ms
-May 20, 2018 4:48:41 PM com.google.appengine.tools.development.AbstractModule startup
+2018-05-22 15:31:36.570:INFO:oejs.Server:main: jetty-9.3.18.v20170406
+2018-05-22 15:31:39.475:INFO:oeja.AnnotationConfiguration:main: Scanning elapsed time=2478ms
+121 [main] INFO org.jboss.resteasy.spi.ResteasyDeployment - Deploying javax.ws.rs.core.Application: class resteasySample.RestEasyApp
+124 [main] INFO org.jboss.resteasy.spi.ResteasyDeployment - Adding singleton resource resteasySample.RESTEasyHelloWorldService from Application class resteasySample.RestEasyApp
+124 [main] INFO org.jboss.resteasy.spi.ResteasyDeployment - Adding singleton resource resteasySample.IndexService from Application class resteasySample.RestEasyApp
+2018-05-22 15:31:40.106:INFO:oejsh.ContextHandler:main: Started c.g.a.t.d.j.DevAppEngineWebAppContext@a22cb6a{/,file:///C:/Users/User.FULL417-WIN.001/eclipse-workspace/gradleresteasy/build/exploded-gradleresteasy/,AVAILABLE}{C:\Users\User.FULL417-WIN.001\eclipse-workspace\gradleresteasy\build\exploded-gradleresteasy}
+2018-05-22 15:31:40.117:INFO:oejs.AbstractConnector:main: Started NetworkTrafficSelectChannelConnector@49cb9cb5{HTTP/1.1,[http/1.1]}{localhost:8080}
+2018-05-22 15:31:40.118:INFO:oejs.Server:main: Started @4262ms
+May 22, 2018 10:01:40 AM com.google.appengine.tools.development.AbstractModule startup
 INFO: Module instance default is running at http://localhost:8080/
-May 20, 2018 4:48:41 PM com.google.appengine.tools.development.AbstractModule startup
+May 22, 2018 10:01:40 AM com.google.appengine.tools.development.AbstractModule startup
 INFO: The admin console is running at http://localhost:8080/_ah/admin
-May 20, 2018 10:18:41 PM com.google.appengine.tools.development.DevAppServerImpl doStart
+May 22, 2018 3:31:40 PM com.google.appengine.tools.development.DevAppServerImpl doStart
 INFO: Dev App Server is now running
-May 20, 2018 10:18:50 PM com.google.appengine.api.datastore.dev.LocalDatastoreService init
+May 22, 2018 3:31:54 PM com.google.appengine.api.datastore.dev.LocalDatastoreService init
 INFO: Local Datastore initialized: 
 	Type: High Replication
 	Storage: E:/temp/local_db.bin
-May 20, 2018 10:18:50 PM com.google.appengine.api.datastore.dev.LocalDatastoreService load
-INFO: Time to load datastore: 37 ms
-May 20, 2018 10:19:20 PM com.google.appengine.api.datastore.dev.LocalDatastoreService$11 run
-INFO: Time to persist datastore: 78 ms
-May 20, 2018 10:19:50 PM com.google.appengine.api.datastore.dev.LocalDatastoreService$11 run
-INFO: Time to persist datastore: 14 ms
-May 20, 2018 10:20:20 PM com.google.appengine.api.datastore.dev.LocalDatastoreService$11 run
-INFO: Time to persist datastore: 15 ms
-May 20, 2018 10:21:50 PM com.google.appengine.api.datastore.dev.LocalDatastoreService$11 run
-INFO: Time to persist datastore: 21 ms
-May 20, 2018 10:22:20 PM com.google.appengine.api.datastore.dev.LocalDatastoreService$11 run
-INFO: Time to persist datastore: 15 ms
+May 22, 2018 3:31:54 PM com.google.appengine.api.datastore.dev.LocalDatastoreService load
+INFO: Time to load datastore: 48 ms
+May 22, 2018 3:32:24 PM com.google.appengine.api.datastore.dev.LocalDatastoreService$11 run
+INFO: Time to persist datastore: 93 ms
+May 22, 2018 3:32:54 PM com.google.appengine.api.datastore.dev.LocalDatastoreService$11 run
+INFO: Time to persist datastore: 31 ms
+May 22, 2018 3:33:24 PM com.google.appengine.api.datastore.dev.LocalDatastoreService$11 run
+INFO: Time to persist datastore: 55 ms
+May 22, 2018 5:28:55 PM com.google.appengine.api.datastore.dev.LocalDatastoreService$11 run
+INFO: Time to persist datastore: 52 ms

@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", loadpage);
 document.getElementById("profilepic").addEventListener("click", toggledetails);
 document.getElementById("userid").addEventListener("click", toggledetails);
-/* document.getElementById("addtimerB").addEventListener("click",addtimer); */
 document.body
 		.addEventListener(
 				"click",
@@ -18,10 +17,16 @@ document.getElementById("logoutB").addEventListener("click", logout);
 document.getElementById("deactivateB").addEventListener("click", deactivate);
 document.getElementById("clkinB").addEventListener("click", timerEntry);
 document.getElementById("clkoutB").addEventListener("click", stopTimerEntry);
+document.getElementById("currentweekB").addEventListener("click",currentweek);
+document.getElementById("sortentriessubmitB").addEventListener("click",getsortedentries);
+document.getElementById("confirmdeleteentryB").addEventListener("click",deleteentry);
 var running=false;
 var runningEntryParentid;
 var runningEntryid;
+var totaltimeinms=0;
+var deleteentryid;
 function loadpage() {
+	totaltimeinms=0;
 	var userid = document.getElementById("userIdI").innerHTML;
 	var xHttp = new XMLHttpRequest();
 	var url = "/rest-api/v1/user/timerinfo/" + userid;
@@ -39,27 +44,10 @@ function loadpage() {
 				}
 				setDailyDuration();
 				inittimer(running);
-				
-				/*document.getElementById("entryIdI").innerHTML = parsedResult.runningentryid;
-				for (i = 0; i < parsedResult.timerentrylist.length; i++) {
-					addInTimerEntry(parsedResult.timerentrylist[i].day,
-							parsedResult.timerentrylist[i].intime,
-							parsedResult.timerentrylist[i].entryid);
-					addOutTimerEntry(parsedResult.timerentrylist[i].day,
-							parsedResult.timerentrylist[i].outtime,
-							parsedResult.timerentrylist[i].entryid);
+				entriesToggler();
+				totaltimecalc();
 				}
-				document.getElementById("hh").innerHTML = pad(parseFloat(parsedResult.hh));
-				document.getElementById("mm").innerHTML = pad(parseFloat(parsedResult.mm));
-				document.getElementById("ss").innerHTML = pad(parseFloat(parsedResult.ss));
-				if (parsedResult.running == true) {
-					start = setInterval(timer, 1000);
-					document.getElementById("clkinB").disabled = true;
-					document.getElementById("clkinB").style.opacity = "0.3";
-					document.getElementById("clkinB").style.cursor = "not-allowed";*/
-
-				}
-
+             
 			}
 		
 	};
@@ -75,6 +63,7 @@ function clearpanel(){
 	while( fc ) {
 	    myNode.removeChild( fc );
 	    fc = myNode.firstChild;
+	    
 	}
 	
 	
@@ -101,9 +90,10 @@ function listdays(){
     d = new Date();	
 	var child = document.createElement("div");
 	child.setAttribute("class","addtimerentry");
-	
+	//child.addEventListener("click",toggleEntries);
 	var day=document.createElement("span");
 	day.setAttribute("class","timerentry");
+	
 	var entrydate=d.getDate()-(dayFactor++);
 	d.setDate(entrydate);
 	day.innerHTML=toDay(d);
@@ -117,8 +107,14 @@ function listdays(){
 	var dailyDuration=document.createElement("span");
 	dailyDuration.setAttribute("id",'DD'+toDay(d));
 	dailyDuration.setAttribute("class","timerentry");
-	dailyDuration.setAttribute("style","margin-left:180px")
+	dailyDuration.setAttribute("style","margin-left:120px")
 	child.appendChild(dailyDuration);
+	var dropdownB=document.createElement("button");
+	var dropdownIcon=document.createElement("span");
+	dropdownIcon.setAttribute("class","caret");
+	dropdownB.appendChild(dropdownIcon);
+	dropdownB.addEventListener("click",toggleEntries);
+	child.appendChild(dropdownB);
 	parent.appendChild(child);	
     }
 	
@@ -129,6 +125,7 @@ function setDailyDuration()
 	for (var i = 0; i < list.length; i++) {
 	    var id = list[i].id;
 		document.getElementById('DD'+id).innerHTML=durationCalc(parseFloat(document.getElementById('DT'+id).innerHTML));
+		totaltimeinms=parseFloat(totaltimeinms)+parseFloat(document.getElementById('DT'+id).innerHTML);
 	}
 
 }
@@ -148,7 +145,7 @@ function addEntries(entryid,intime,outtime)
 	entrychild.setAttribute("class","addentry");
 	if(outtime==0)
 		{
-		entrychild.innerHTML='\xa0\xa0\xa0\xa0\xa0\xa0'+entryTime(new Date(intime))+'\xa0\xa0 -\xa0\xa0 Ongoing...'+'.\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0 '+durationCalc(new Date().getTime()-intime);
+		entrychild.innerHTML=entryTime(new Date(intime))+' - Ongoing....'+' \xa0\xa0'+durationCalc(new Date().getTime()-intime);
 	    running=true;
 	    document.getElementById("DT"+toDay(new Date(intime))).innerHTML=parseFloat(document.getElementById("DT"+toDay(new Date(intime))).innerHTML) + parseFloat(new Date().getTime()-intime);
 	    runningEntryParentid=parent.id;
@@ -156,9 +153,19 @@ function addEntries(entryid,intime,outtime)
 		}
 	else
 	    {
-		entrychild.innerHTML='\xa0\xa0\xa0\xa0\xa0\xa0'+entryTime(new Date(intime))+'\xa0\xa0 -\xa0\xa0 '+entryTime(new Date(outtime))+'.\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0 '+durationCalc(outtime-intime);
+		entrychild.innerHTML=entryTime(new Date(intime))+' - '+entryTime(new Date(outtime))+'. \xa0'+durationCalc(outtime-intime);
 	    document.getElementById("DT"+toDay(new Date(intime))).innerHTML=parseFloat(document.getElementById("DT"+toDay(new Date(intime))).innerHTML) + parseFloat(outtime-intime);
+	    var deleteentryB=document.createElement("button");
+		var deleteicon=document.createElement("span");
+		deleteicon.setAttribute("class","glyphicon glyphicon-trash");
+		deleteentryB.setAttribute("data-toggle","modal");
+		deleteentryB.setAttribute("data-target","#deleteentrymodal");
+		deleteentryB.appendChild(deleteicon);
+		deleteentryB.addEventListener("click",setdeleteentryid);
+		entrychild.appendChild(deleteentryB);
 	    }
+	
+	
     parent.appendChild(entrychild);
     
     
@@ -178,7 +185,7 @@ function entryTime(date)
 function durationCalc(milli)
 {
 	
-	return pad(Math.floor(milli / 3600000))+'h, '+pad(Math.floor((milli % 3600000) / 60000))+'m.';
+	return pad(Math.floor(milli / 3600000))+'h, '+pad(Math.floor((milli % 3600000) / 60000))+'m, '+pad(Math.floor(((milli% 3600000) % 60000) / 1000))+'s. ';
 	
 
 }
@@ -193,30 +200,6 @@ function toggledetails() {
 		x.style.display = "none";
 	}
 }
-/*function addInTimerEntry(day, intime, entryid) {
-	var parent = document.getElementById("timerlist");
-	var child = document.createElement("div");
-	child.setAttribute("class", "addtimerentry");
-	child.setAttribute("id", entryid);
-	var intimeentry = document.createElement("span");
-	intimeentry.setAttribute("class", "timerentry");
-	intimeentry.innerHTML = day + ' ' + intime + ' - ';
-	child.appendChild(intimeentry);
-	parent.appendChild(child);
-
-}
-function addOutTimerEntry(day, outtime, entryid) {
-	var entry = document.getElementById(entryid);
-	var outtimeentry = document.createElement("span");
-	outtimeentry.setAttribute("class", "timerentry");
-	if (outtime === ' ') {
-		outtimeentry.innerHTML = ' ';
-	} else {
-		outtimeentry.innerHTML = day + ' ' + outtime;
-	}
-	entry.appendChild(outtimeentry);
-
-}*/
 
 function edit() {
 	var hide = document.getElementsByClassName("editclassB");
@@ -382,14 +365,17 @@ function starttimer() {
 	
 	if (parseFloat(document.getElementById("ss").innerHTML) === 59) {
 		document.getElementById("ss").innerHTML = pad(00);
-		document.getElementById("mm").innerHTML = pad(parseFloat(document
-				.getElementById("mm").innerHTML) + 1);
 		if (parseFloat(document.getElementById("mm").innerHTML) === 59) {
 			document.getElementById("mm").innerHTML = pad(00);
 			document.getElementById("hh").innerHTML = pad(parseFloat(document
 					.getElementById("hh").innerHTML) + 1);
 
 		}
+		else
+			{
+		document.getElementById("mm").innerHTML = pad(parseFloat(document
+				.getElementById("mm").innerHTML) + 1);
+			}
 	} else {
 
 		document.getElementById("ss").innerHTML = pad(parseFloat(document
@@ -423,6 +409,8 @@ function stopTimerEntry() {
 
 function pad(d)
 {
+	if(d<0)
+		d=0;
 	return (d < 10) ? '0' + d.toString() : d.toString();
 }
 function padHours(d) {
@@ -436,4 +424,116 @@ function padHours(d) {
 	else 
 		return d;
 		
+}
+function toggleEntries(event)
+{
+	var parent;
+	if(event.target.parentNode.id=="")
+		parent=document.getElementById(event.target.parentNode.parentNode.id);
+	else
+	parent= document.getElementById(event.target.parentNode.id);
+	var children =parent.childNodes;
+	if(children.length>4)
+     {if(children[4].style.display=="none")
+		{
+		for(var i=4;i<children.length;i++)
+			children[i].style.display="block";
+		}
+     else
+    	 {
+    	 for(var i=4;i<children.length;i++)
+ 			children[i].style.display="none";
+    	 }
+     }
+
+
+}
+function entriesToggler()
+{
+var entries=document.getElementsByClassName("addtimerentry");
+if(entries.length>1)
+	{
+	for(var i=1;i<entries.length;i++)
+     {
+		if(entries[i].childNodes.length>4)
+		{  	var children=entries[i].childNodes;
+		for(var j=4;j<children.length;j++)
+ 			children[j].style.display="none";
+	    	 }	
+		
+     }
+	}
+}
+function totaltimecalc()
+{
+	
+	document.getElementById("totaltime").innerHTML=durationCalc((parseFloat(totaltimeinms)));
+
+}
+function currentweek()
+{
+document.getElementById("closemodal").click();
+clearInterval(start);
+loadpage();
+}
+function getsortedentries()
+{
+validatedates();	
+}
+function validatedates()
+{
+	
+var fromdate=document.getElementById("fromdate").value;
+var todate = document.getElementById("todate").value;
+if(fromdate=="")
+	{
+	document.getElementById("sortentryError").innerHTML = "Enter a start date";
+	setTimeout(function() {
+		document.getElementById("sortentryError").innerHTML = ""
+	}, 800);
+	return false;
+	}
+if(todate=="")
+	{
+	document.getElementById("sortentryError").innerHTML = "Enter a end date";
+	setTimeout(function() {
+		document.getElementById("sortentryError").innerHTML = ""
+	}, 800);
+	return false;
+	}
+}
+function setdeleteentryid(event)
+{
+	if(event.target.tagName=="SPAN")
+		{
+		deleteentryid=event.target.parentNode.parentNode.id;
+		}
+	else
+	deleteentryid=event.target.parentNode.id;
+	
+}
+function deleteentry()
+{
+var xHttp=new XMLHttpRequest();
+var url="/rest-api/v1/user/delete/entry/"+deleteentryid;
+xHttp.onload = function() {
+	if (this.readyState == 4) {
+		var result = xHttp.response;
+		var parsedResult = JSON.parse(result);
+		if (parsedResult.Success == true) {
+		clearInterval(start);
+		deleteentryid=null;
+		document.getElementById("closedeleteentrymodalB").click();
+		loadpage();
+		
+		}
+		}
+};
+    xHttp.open("DELETE",url,true);
+    xHttp.send();
+
+
+
+
+
 }

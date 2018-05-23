@@ -6,6 +6,7 @@ html, body {
 	max-height: 100%;
 	overflow-x: hidden;
 	overflow-y: hidden;
+	font-family: Courier New;
 }
 
 .username {
@@ -95,6 +96,7 @@ html, body {
 	background: black;
 	padding-top: 5px;
 	margin-top: 20px;
+	display: unset;
 
 }
 .editclassA
@@ -132,6 +134,26 @@ input[type="file"] {
 	color: black;
 	background: white;
 	padding-top: 3px;
-	padding-left: 10px;
+	display: block;
+}
+.sortentries
+{
 	
+    margin-left: 24px;
+    margin-top: 42px;
+    position: absolute;
+    background: white;
+    width: 376px;
+    border-radius:  10px;
+    height: 26px;
+    font-size: 18px;
+    cursor: default;
+    text-align: left;
+}
+.sortentryB
+{
+	
+	position: absolute;
+	margin-left:400px;
+	margin-top: 42px;
 }
