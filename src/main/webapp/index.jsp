@@ -21,7 +21,7 @@ if((Contact)session.getAttribute("userInfo")!=null)
 </head>
 
 <body>
-<%String message="";
+	<%String message="";
                 if(request.getParameter("message")!=null)
                 	message=(String)(request.getParameter("message"));
                 	%>
@@ -84,21 +84,50 @@ if((Contact)session.getAttribute("userInfo")!=null)
 										class="form-control" id="pwdL" placeholder="Enter password"
 										name="pwd" required>
 								</div>
+								<a id="forgotpasswordB"
+									style="margin-left: 197px; color: orangered; cursor: pointer;"
+									data-toggle="modal" data-target="#forgotpasswordmodal">Forgot
+									password?</a>
+
 								<div class="buttons">
 									<button id="signupl" type="button" class="btn-default btn-lg"
-										style="margin-top: -5px;">Login</button>
+										style="margin-top: 9px;">Login</button>
 
 								</div>
+
 								<a id="gsignB" style="cursor: pointer;"><img
 									src="http://images.sb.a-cti.com/images/Google signin_Red_Long.png"
 									style="width: 156px; margin-left: 179px; height: 46px; border-radius: 44px; margin-top: 12px;"></a>
 							</form>
+
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 
+	</div>
+	<div class="modal" id="forgotpasswordmodal">
+		<div class="modal-dialog modal-md">
+			<div class="modal-content">
+				<div class="modal-header">
+					<p class="text-danger" id=modalpasswordError
+						style="margin-left: 220px"></p>
+					<button id="closemodalpass" style="float: right" data-dismiss="modal">
+						<span class="glyphicon glyphicon-remove"></span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<label for="email">Enter your email:</label> <input type="email"
+						class="form-control" id="emailP" placeholder="Enter email"
+						name="email" required>
+				</div>
+				<div class="modal-footer">
+					<button id="submitP" type="button" class="btn-default btn-lg"
+						style="margin-right: 224px; margin-top: -19px;">Submit</button>
+				</div>
+			</div>
+		</div>
 	</div>
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

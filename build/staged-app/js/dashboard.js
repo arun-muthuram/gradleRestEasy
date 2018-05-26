@@ -25,6 +25,7 @@ var runningEntryParentid;
 var runningEntryid;
 var totaltimeinms=0;
 var deleteentryid;
+var showentries;
 function loadpage() {
 	totaltimeinms=0;
 	var userid = document.getElementById("userIdI").innerHTML;
@@ -46,6 +47,7 @@ function loadpage() {
 				inittimer(running);
 				entriesToggler();
 				totaltimecalc();
+				showEntries();
 				}
              
 			}
@@ -522,6 +524,7 @@ xHttp.onload = function() {
 		var parsedResult = JSON.parse(result);
 		if (parsedResult.Success == true) {
 		clearInterval(start);
+		showentries=document.getElementById(deleteentryid).parentNode.id;
 		deleteentryid=null;
 		document.getElementById("closedeleteentrymodalB").click();
 		loadpage();
@@ -531,9 +534,15 @@ xHttp.onload = function() {
 };
     xHttp.open("DELETE",url,true);
     xHttp.send();
-
-
-
-
+}
+function showEntries()
+{
+	if(showentries!=null){var childnodes=document.getElementById(showentries).childNodes;
+	for(var i=4;i<childnodes.length;i++)
+		{
+		childnodes[i].style.display="block";
+		
+		}
+    showentries=null;}
 
 }

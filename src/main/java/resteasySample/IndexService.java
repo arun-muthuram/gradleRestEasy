@@ -4,6 +4,7 @@ import resteasySample.Contact;
 import static resteasySample.StartObjectify.ofy;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -78,6 +79,7 @@ public class IndexService {
 		String clientid = "1062085927305-i99h2o72tn8ptdh8ft7kne26pkosbtni.apps.googleusercontent.com";
 		String clientsecret = "pbJMIMuM1UX6LDG68yH7zKNM";
 		java.net.URI locationerror = new java.net.URI("/index.jsp?message=Google%20signin%20failed");
+		java.net.URI locationerror2 = new java.net.URI("/index.jsp?message=User%20Account%20deactivated");
 		java.net.URI location = new java.net.URI("/index.jsp");
 		
 
@@ -114,6 +116,12 @@ public class IndexService {
 						session.invalidate();
 				    return Response.temporaryRedirect(locationerror).build();
 					}
+					else if(loginresult.getActive()==false)
+					{
+						HttpSession session =request.getSession();
+						session.invalidate();
+				    return Response.temporaryRedirect(locationerror2).build();
+					}
 					else {
 						HttpSession session = request.getSession();
 						session.setAttribute("userInfo", loginresult);
@@ -130,5 +138,32 @@ public class IndexService {
 		}
 		return Response.temporaryRedirect(locationerror).build();
 
+	}
+	@GET
+	@Path("/token")
+	@Produces(MediaType.TEXT_HTML)
+	public Response resetpassword(@QueryParam("token") String token) throws URISyntaxException
+	{
+		String[] parts=token.split("X");
+		Contact user=ofy().load().type(Contact.class).id(Long.parseLong(parts[0])).now();
+		if(user==null||!(user.getResetToken().equals(token)))
+		{
+			java.net.URI locationerror = new java.net.URI("/index.jsp?message=invalid%20token");
+			return Response.temporaryRedirect(locationerror).build();
+		}
+		if(Long.parseLong(parts[2])-new Date().getTime()>1800000)
+		{
+			java.net.URI locationerror = new java.net.URI("/index.jsp?message=token%20expired");
+			return Response.temporaryRedirect(locationerror).build();
+		}
+		else
+		{
+			java.net.URI locationerror = new java.net.URI("/reset.jsp?user="+user.getId());
+			return Response.temporaryRedirect(locationerror).build();
+			
+			
+		}
+		
+		
 	}
 }

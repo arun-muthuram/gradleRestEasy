@@ -20,6 +20,8 @@ private String phoneNumber;
 private Boolean active;
 @Index
 private String ProfilePicUrl;
+@Index
+private String resetToken;
 
 public Contact() {	
 }
@@ -82,6 +84,12 @@ public String getProfilePicUrl() {
 }
 public void setProfilePicUrl(String profilePicUrl) {
 	ProfilePicUrl = profilePicUrl;
+}
+public String getResetToken() {
+	return resetToken;
+}
+public void setResetToken(String resetToken) {
+	this.resetToken = resetToken;
 }
 
 }

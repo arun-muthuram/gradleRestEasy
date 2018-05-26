@@ -2,7 +2,7 @@ package resteasySample;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-
+import java.util.logging.*;
 import javax.ws.rs.Path;
 import resteasySample.PATCH;
 import javax.ws.rs.PathParam;
@@ -22,11 +22,16 @@ import resteasySample.Contact;
 import static resteasySample.StartObjectify.ofy;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.Properties;
+import com.google.appengine.api.mail.MailService.Message;
+import com.google.appengine.api.mail.MailServiceFactory;
+
 
 @Path("/rest-api/v1")
 public class RESTEasyHelloWorldService {
@@ -344,6 +349,7 @@ public class RESTEasyHelloWorldService {
 		 Calendar today = Calendar. getInstance();
 		 today.setTime(new Date());
 		 Calendar entryDay = Calendar.getInstance();
+		 ofy().clear();
 		List<TimerInfo> timerInfoList = ofy().load().type(TimerInfo.class).filter("userId", userid).list();
 		for(TimerInfo x: timerInfoList)
 		{
@@ -387,5 +393,87 @@ public class RESTEasyHelloWorldService {
 		}
 		
 	}
+	@SuppressWarnings("unchecked")
+	@PATCH
+	@Path("/user/password/token/create")
+	@Produces("application/json")
+	@Consumes("application/json")
+	public Response createToken(JSONObject email,@Context HttpServletRequest request) throws UnsupportedEncodingException
+	{
+		JSONObject result = new JSONObject();
+		Contact user = ofy().load().type(Contact.class).filter("email",email.get("email")).first().now();
+		if(user==null)
+		{
+			result.put("Success", false);
+			result.put("message", "Email doesn't exist");
+			return Response.status(401).entity(result).build();
+		}
+		else
+		{
+			String resetToken= user.getId()+"X"+UUID.randomUUID().toString()+"X"+new Date().getTime();
+			user.setResetToken(resetToken);
+			ofy().save().entity(user).now();
+			
+		   String to = (String)email.get("email");
+		   
+		 
+		   
+
+		   try {
+			   Message msg = new Message();
+			   msg.setSender("arun.muthuraman@anywhere.co");
+			   msg.setReplyTo(to);
+			   msg.setTo(to);
+			   msg.setSubject("Password reset");
+			   msg.setHtmlBody("<html><h1>Dear User,</h1><p>Please click the following link to reset your password.</p><a href=\"https://login-signup-ui.appspot.com/token?="+resetToken+"\">Reset password</a></html>");
+			   MailServiceFactory.getMailService().send(msg);
+			   
+		   }catch (Exception mex) {
+			   final Logger log = Logger.getLogger(RESTEasyHelloWorldService.class.getName());
+			   log.info(mex.toString());
+		      
+		   }
+			
+			result.put("Success", true);
+			return Response.status(200).entity(result).build();
+			
+		}
+			
+	}
+	@SuppressWarnings("unchecked")
+	@PATCH
+	@Path("/user/password/reset")
+	@Produces("application/json")
+	@Consumes("application/json")
+	public Response resetpasswordtoken(JSONObject reset,@Context HttpServletRequest request)
+	{
+		JSONObject result= new JSONObject();
+		String userid=(String)reset.get("userid");
+		userid=userid.trim();
+		Contact user=ofy().load().type(Contact.class).id(Long.parseLong(userid)).now();
+		if(user.getResetToken()!=null)
+		{
+			user.setPassword((String)reset.get("password"));
+			user.setResetToken(null);
+			HttpSession session = request.getSession();
+			session.setAttribute("userInfo", user);
+			result.put("Success", true);
+			
+			return Response.status(200).entity(result).build();
+		}
+		else
+		{
+			result.put("Success", false);
+			result.put("message", "Reset password failed.");
+			return Response.status(200).entity(result).build();
+			
+			
+			
+		}
+	}
+	  
+		
+	
+	
 		
 }
