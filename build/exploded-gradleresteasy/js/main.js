@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function(){
 		{
 		setTimeout(function() {
 			location.replace("/")
-		},800);
+		},1000);
 		}
 });
 document.getElementById("submitP").addEventListener("click",forgotpassword);
@@ -29,7 +29,7 @@ function register() {
 					document.getElementById("error").innerHTML = parsedResult.message;
 					setTimeout(function() {
 						document.getElementById("error").innerHTML = ""
-					}, 800);
+					}, 3000);
 				}
 			}
 		};
@@ -54,7 +54,7 @@ function login() {
 				document.getElementById("error").innerHTML = parsedResult.message;
 				setTimeout(function() {
 					document.getElementById("error").innerHTML = ""
-				}, 800);
+				}, 3000);
 			}
 		}
 	};
@@ -67,33 +67,33 @@ function validate(name, email, password, phonenumber) {
 	var nameregex = new RegExp('^[a-zA-Z][a-zA-Z\\s]*$');
 	var emailregex = new RegExp('^[a-z0-9._%+-]+@[a-z0-9.-]+[.][a-z]{2,}$');
 	var phoneregex = new RegExp('^[789][0-9]{9}$');
-	var passregex = new RegExp('^[.*]{6}$');
+	var passregex = new RegExp('^[^\\s]{6}$');
 	if (!nameregex.test(name)) {
 		document.getElementById("error").innerHTML = "Enter a valid name";
 		setTimeout(function() {
 			document.getElementById("error").innerHTML = ""
-		}, 800);
+		}, 3000);
 		return false;
 	}
 	if (!emailregex.test(email)) {
 		document.getElementById("error").innerHTML = "Enter a valid email";
 		setTimeout(function() {
 			document.getElementById("error").innerHTML = ""
-		}, 800);
+		}, 3000);
 		return false;
 	}
 	if (!passregex.test(password)) {
-		document.getElementById("error").innerHTML = "Enter a valid password";
+		document.getElementById("error").innerHTML = "Enter a valid password- minimum 6 characters, no spaces";
 		setTimeout(function() {
 			document.getElementById("error").innerHTML = ""
-		}, 800);
+		}, 3000);
 		return false;
 	}
-	if (!phoneregex.test(phonenumber)) {
+	if (phonenumber!=""&&!phoneregex.test(phonenumber)) {
 		document.getElementById("error").innerHTML = "Enter a valid 10 digit phonenumber";
 		setTimeout(function() {
 			document.getElementById("error").innerHTML = ""
-		}, 800);
+		}, 3000);
 		return false;
 	}
 	return true;
@@ -118,7 +118,7 @@ function forgotpassword()
 		document.getElementById("modalpasswordError").innerHTML = "Enter a valid email";
 		setTimeout(function() {
 			document.getElementById("modalpasswordError").innerHTML = ""
-		}, 800);
+		}, 3000);
 	}
 	else
 		{
@@ -137,14 +137,14 @@ function forgotpassword()
 					 document.getElementById("error").innerHTML = "Password reset link has been sent. Please visit your email.";
 						setTimeout(function() {
 							document.getElementById("error").innerHTML = ""
-						}, 2000);
+						}, 3000);
 					 
 					}
 				else {
 					document.getElementById("modalpasswordError").innerHTML = parsedResult.message;
 					setTimeout(function() {
 						document.getElementById("modalpasswordError").innerHTML = ""
-					}, 800);
+					}, 3000);
 					document.getElementById("error").innerHTML = "Please wait";
 				}
 			}

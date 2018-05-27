@@ -425,7 +425,7 @@ public class RESTEasyHelloWorldService {
 			   msg.setReplyTo(to);
 			   msg.setTo(to);
 			   msg.setSubject("Password reset");
-			   msg.setHtmlBody("<html><h1>Dear User,</h1><p>Please click the following link to reset your password.</p><a href=\"https://login-signup-ui.appspot.com/token?="+resetToken+"\">Reset password</a></html>");
+			   msg.setHtmlBody("<html><h1>Dear User,</h1><p>Please click the following link to reset your password.</p><a href=\"https://login-signup-ui.appspot.com/token?token="+resetToken+"\">Reset password</a></html>");
 			   MailServiceFactory.getMailService().send(msg);
 			   
 		   }catch (Exception mex) {
@@ -455,6 +455,7 @@ public class RESTEasyHelloWorldService {
 		{
 			user.setPassword((String)reset.get("password"));
 			user.setResetToken(null);
+			ofy().save().entity(user).now();
 			HttpSession session = request.getSession();
 			session.setAttribute("userInfo", user);
 			result.put("Success", true);

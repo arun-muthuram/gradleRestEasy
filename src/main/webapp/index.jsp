@@ -35,28 +35,28 @@ if((Contact)session.getAttribute("userInfo")!=null)
 				class="col-xs-10 col-md-6 col-sm-8 col-lg-6 col-md-offset-3 col-sm-offset-2 col-xs-offset-1">
 				<div class="panel panel-body">
 					<ul id="rowtabs" class="nav nav-tabs">
-						<li id="Signup" class="active"><a data-toggle="tab"
+						<li id="Signup" ><a data-toggle="tab"
 							href="#signup">Signup</a></li>
-						<li id="Login"><a data-toggle="tab" href="#login">Login</a></li>
+						<li id="Login" class="active"><a data-toggle="tab" href="#login">Login</a></li>
 					</ul>
 					<div class="box-top-buffer"></div>
 					<div class="tab-content">
-						<div id="signup" class="tab-pane fade in active">
+						<div id="signup" class="tab-pane fade">
 							<form>
 								<div class="form-group">
 									<label for="name">Name:</label> <input type="text"
-										class="form-control" id="name" placeholder="Enter name"
+										class="form-control" id="name" placeholder="Enter name*"
 										name="name" required>
 								</div>
 								<div class="form-group">
 									<label for="email">Email:</label> <input type="text"
 										pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}"
 										title="enter a valid email" class="form-control" id="email"
-										placeholder="Enter email" name="email" required>
+										placeholder="Enter email*" name="email" required>
 								</div>
 								<div class="form-group">
 									<label for="pwd">Password:</label> <input type="password"
-										class="form-control" id="pwd" placeholder="Enter password"
+										class="form-control" id="pwd" placeholder="Enter password*"
 										name="pwd" required>
 								</div>
 
@@ -72,7 +72,7 @@ if((Contact)session.getAttribute("userInfo")!=null)
 								</div>
 							</form>
 						</div>
-						<div id="login" class="tab-pane fade">
+						<div id="login" class="tab-pane fade in active">
 							<form>
 								<div class="form-group">
 									<label for="email">Email:</label> <input type="email"

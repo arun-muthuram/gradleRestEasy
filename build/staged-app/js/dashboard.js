@@ -243,7 +243,7 @@ function update() {
 					document.getElementById("werror").innerHTML = parsedResult.message;
 					setTimeout(function() {
 						document.getElementById("werror").innerHTML = ""
-					}, 800);
+					}, 3000);
 
 				} else {
 					document.location.reload(true);
@@ -298,21 +298,21 @@ function validate(name, email, phonenumber) {
 		document.getElementById("werror").innerHTML = "Enter a valid name";
 		setTimeout(function() {
 			document.getElementById("werror").innerHTML = ""
-		}, 800);
+		}, 3000);
 		return false;
 	}
 	if (!emailregex.test(email)) {
 		document.getElementById("werror").innerHTML = "Enter a valid email";
 		setTimeout(function() {
 			document.getElementById("werror").innerHTML = ""
-		}, 800);
+		}, 3000);
 		return false;
 	}
 	if (!phoneregex.test(phonenumber)) {
 		document.getElementById("werror").innerHTML = "Enter a valid 10 digit phonenumber";
 		setTimeout(function() {
 			document.getElementById("werror").innerHTML = ""
-		}, 800);
+		}, 3000);
 		return false;
 	}
 	return true;
@@ -492,7 +492,7 @@ if(fromdate=="")
 	document.getElementById("sortentryError").innerHTML = "Enter a start date";
 	setTimeout(function() {
 		document.getElementById("sortentryError").innerHTML = ""
-	}, 800);
+	}, 3000);
 	return false;
 	}
 if(todate=="")
@@ -500,7 +500,7 @@ if(todate=="")
 	document.getElementById("sortentryError").innerHTML = "Enter a end date";
 	setTimeout(function() {
 		document.getElementById("sortentryError").innerHTML = ""
-	}, 800);
+	}, 3000);
 	return false;
 	}
 }

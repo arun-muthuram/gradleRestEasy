@@ -146,7 +146,7 @@ public class IndexService {
 	{
 		String[] parts=token.split("X");
 		Contact user=ofy().load().type(Contact.class).id(Long.parseLong(parts[0])).now();
-		if(user==null||!(user.getResetToken().equals(token)))
+		if(user==null||!(token.equals(user.getResetToken())))
 		{
 			java.net.URI locationerror = new java.net.URI("/index.jsp?message=invalid%20token");
 			return Response.temporaryRedirect(locationerror).build();
