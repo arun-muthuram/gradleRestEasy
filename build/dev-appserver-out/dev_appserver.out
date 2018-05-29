@@ -1,6 +1,6 @@
-May 26, 2018 1:53:10 PM java.util.prefs.WindowsPreferences <init>
+May 29, 2018 9:41:44 AM java.util.prefs.WindowsPreferences <init>
 WARNING: Could not open/create prefs root node Software\JavaSoft\Prefs at root 0x80000002. Windows RegCreateKeyEx(...) returned error code 5.
-May 26, 2018 1:53:10 PM com.google.appengine.tools.development.LoggingConfigurationManager loadPropertiesFile
+May 29, 2018 9:41:44 AM com.google.appengine.tools.development.LoggingConfigurationManager loadPropertiesFile
 WARNING: Unable to load properties file, C:\Users\User.FULL417-WIN.001\eclipse-workspace\gradleresteasy\build\exploded-gradleresteasy\WEB-INF\classes\logging.properties
 java.io.FileNotFoundException: C:\Users\User.FULL417-WIN.001\eclipse-workspace\gradleresteasy\build\exploded-gradleresteasy\WEB-INF\classes\logging.properties (The system cannot find the file specified)
 	at java.io.FileInputStream.open0(Native Method)
@@ -30,37 +30,94 @@ java.io.FileNotFoundException: C:\Users\User.FULL417-WIN.001\eclipse-workspace\g
 	at com.google.appengine.tools.development.DevAppServerMain.run(DevAppServerMain.java:223)
 	at com.google.appengine.tools.development.DevAppServerMain.main(DevAppServerMain.java:214)
 
-May 26, 2018 1:53:10 PM com.google.appengine.tools.development.SystemPropertiesManager setSystemProperties
+May 29, 2018 9:41:44 AM com.google.appengine.tools.development.SystemPropertiesManager setSystemProperties
 INFO: Overwriting system property key 'java.util.logging.config.file', value 'C:\Program Files (x86)\Google\Cloud SDK\google-cloud-sdk\platform\google_appengine\google\appengine\tools\java\config\sdk\logging.properties' with value 'WEB-INF/classes/logging.properties' from 'C:\Users\User.FULL417-WIN.001\eclipse-workspace\gradleresteasy\build\exploded-gradleresteasy\WEB-INF\appengine-web.xml'
-2018-05-26 13:53:10.851:INFO::main: Logging initialized @396ms
-May 26, 2018 8:23:11 AM com.google.appengine.tools.development.jetty9.JettyContainerService initContext
+2018-05-29 09:41:44.650:INFO::main: Logging initialized @408ms
+May 29, 2018 4:11:45 AM com.google.appengine.tools.development.jetty9.JettyContainerService initContext
 WARNING: Adding jar org.apache.taglibs.taglibs-standard-impl-1.2.5.jar to WEB-INF/lib. You might want to add a dependency in your project build system to avoid this warning.
-May 26, 2018 8:23:11 AM com.google.appengine.tools.development.jetty9.JettyContainerService initContext
+May 29, 2018 4:11:45 AM com.google.appengine.tools.development.jetty9.JettyContainerService initContext
 WARNING: Adding jar org.apache.taglibs.taglibs-standard-spec-1.2.5.jar to WEB-INF/lib. You might want to add a dependency in your project build system to avoid this warning.
-2018-05-26 13:53:11.206:INFO:oejs.Server:main: jetty-9.3.18.v20170406
-2018-05-26 13:53:14.335:INFO:oeja.AnnotationConfiguration:main: Scanning elapsed time=2666ms
-124 [main] INFO org.jboss.resteasy.spi.ResteasyDeployment - Deploying javax.ws.rs.core.Application: class resteasySample.RestEasyApp
-128 [main] INFO org.jboss.resteasy.spi.ResteasyDeployment - Adding singleton resource resteasySample.IndexService from Application class resteasySample.RestEasyApp
-129 [main] INFO org.jboss.resteasy.spi.ResteasyDeployment - Adding singleton resource resteasySample.RESTEasyHelloWorldService from Application class resteasySample.RestEasyApp
-2018-05-26 13:53:14.996:INFO:oejsh.ContextHandler:main: Started c.g.a.t.d.j.DevAppEngineWebAppContext@e8df99a{/,file:///C:/Users/User.FULL417-WIN.001/eclipse-workspace/gradleresteasy/build/exploded-gradleresteasy/,AVAILABLE}{C:\Users\User.FULL417-WIN.001\eclipse-workspace\gradleresteasy\build\exploded-gradleresteasy}
-2018-05-26 13:53:15.007:INFO:oejs.AbstractConnector:main: Started NetworkTrafficSelectChannelConnector@5629510{HTTP/1.1,[http/1.1]}{localhost:8080}
-2018-05-26 13:53:15.008:INFO:oejs.Server:main: Started @4553ms
-May 26, 2018 8:23:15 AM com.google.appengine.tools.development.AbstractModule startup
+2018-05-29 09:41:45.579:INFO:oejs.Server:main: jetty-9.3.18.v20170406
+2018-05-29 09:41:48.656:INFO:oeja.AnnotationConfiguration:main: Scanning elapsed time=2513ms
+153 [main] INFO org.jboss.resteasy.spi.ResteasyDeployment - Deploying javax.ws.rs.core.Application: class resteasySample.RestEasyApp
+157 [main] INFO org.jboss.resteasy.spi.ResteasyDeployment - Adding singleton resource resteasySample.IndexService from Application class resteasySample.RestEasyApp
+157 [main] INFO org.jboss.resteasy.spi.ResteasyDeployment - Adding singleton resource resteasySample.RESTEasyHelloWorldService from Application class resteasySample.RestEasyApp
+2018-05-29 09:41:49.977:INFO:oejsh.ContextHandler:main: Started c.g.a.t.d.j.DevAppEngineWebAppContext@e8df99a{/,file:///C:/Users/User.FULL417-WIN.001/eclipse-workspace/gradleresteasy/build/exploded-gradleresteasy/,AVAILABLE}{C:\Users\User.FULL417-WIN.001\eclipse-workspace\gradleresteasy\build\exploded-gradleresteasy}
+2018-05-29 09:41:50.060:INFO:oejs.AbstractConnector:main: Started NetworkTrafficSelectChannelConnector@5629510{HTTP/1.1,[http/1.1]}{localhost:8080}
+2018-05-29 09:41:50.061:INFO:oejs.Server:main: Started @5819ms
+May 29, 2018 4:11:50 AM com.google.appengine.tools.development.AbstractModule startup
 INFO: Module instance default is running at http://localhost:8080/
-May 26, 2018 8:23:15 AM com.google.appengine.tools.development.AbstractModule startup
+May 29, 2018 4:11:50 AM com.google.appengine.tools.development.AbstractModule startup
 INFO: The admin console is running at http://localhost:8080/_ah/admin
-May 26, 2018 1:53:15 PM com.google.appengine.tools.development.DevAppServerImpl doStart
+May 29, 2018 9:41:50 AM com.google.appengine.tools.development.DevAppServerImpl doStart
 INFO: Dev App Server is now running
-May 26, 2018 4:00:42 PM com.google.appengine.api.datastore.dev.LocalDatastoreService init
-INFO: Local Datastore initialized: 
-	Type: High Replication
-	Storage: E:/temp/local_db.bin
-May 26, 2018 4:00:42 PM com.google.appengine.api.datastore.dev.LocalDatastoreService load
-INFO: Time to load datastore: 47 ms
-contact result : null
-May 26, 2018 4:02:42 PM com.google.appengine.api.datastore.dev.LocalDatastoreService$11 run
-INFO: Time to persist datastore: 103 ms
-{"name":"aeron","email":"arun.muthuraman@anywhere.co","phoneNumber":"9879879879"}
-com.google.appengine.tools.development.jetty9.SerializableObjectsOnlyHashSessionManager$SerializableObjectsOnlyHttpSession:zf6iizrhbug892dwmge3igan@641024707
-May 26, 2018 4:03:12 PM com.google.appengine.api.datastore.dev.LocalDatastoreService$11 run
-INFO: Time to persist datastore: 16 ms
+May 29, 2018 9:42:47 AM com.google.appengine.tools.development.jetty9.LocalResourceFileServlet doGet
+WARNING: No file found for: /favicon.ico
+May 29, 2018 11:22:06 AM com.google.appengine.tools.development.jetty9.JettyContainerService$ScannerListener fileChanged
+INFO: C:\Users\User.FULL417-WIN.001\eclipse-workspace\gradleresteasy\build\exploded-gradleresteasy\WEB-INF\appengine-web.xml updated, reloading the webapp!
+2018-05-29 11:22:06.781:INFO:oejsh.ContextHandler:Scanner-0: Stopped c.g.a.t.d.j.DevAppEngineWebAppContext@e8df99a{/,file:///C:/Users/User.FULL417-WIN.001/eclipse-workspace/gradleresteasy/build/exploded-gradleresteasy/,UNAVAILABLE}{C:\Users\User.FULL417-WIN.001\eclipse-workspace\gradleresteasy\build\exploded-gradleresteasy}
+2018-05-29 11:22:06.794:INFO:oejs.AbstractConnector:Scanner-0: Stopped NetworkTrafficSelectChannelConnector@5629510{HTTP/1.1,[http/1.1]}{localhost:8080}
+May 29, 2018 11:22:06 AM com.google.appengine.tools.development.LoggingConfigurationManager loadPropertiesFile
+WARNING: Unable to load properties file, C:\Users\User.FULL417-WIN.001\eclipse-workspace\gradleresteasy\build\exploded-gradleresteasy\WEB-INF\classes\logging.properties
+java.io.FileNotFoundException: C:\Users\User.FULL417-WIN.001\eclipse-workspace\gradleresteasy\build\exploded-gradleresteasy\WEB-INF\classes\logging.properties (The system cannot find the file specified)
+	at java.io.FileInputStream.open0(Native Method)
+	at java.io.FileInputStream.open(FileInputStream.java:195)
+	at java.io.FileInputStream.<init>(FileInputStream.java:138)
+	at com.google.appengine.tools.development.LoggingConfigurationManager.loadPropertiesFile(LoggingConfigurationManager.java:170)
+	at com.google.appengine.tools.development.LoggingConfigurationManager.read(LoggingConfigurationManager.java:78)
+	at com.google.appengine.tools.development.ApplicationConfigurationManager.validateAndRegisterGlobalValues(ApplicationConfigurationManager.java:183)
+	at com.google.appengine.tools.development.ApplicationConfigurationManager.access$400(ApplicationConfigurationManager.java:31)
+	at com.google.appengine.tools.development.ApplicationConfigurationManager$WarModuleConfigurationHandle.readConfiguration(ApplicationConfigurationManager.java:443)
+	at com.google.appengine.tools.development.jetty9.JettyContainerService.reloadWebApp(JettyContainerService.java:488)
+	at com.google.appengine.tools.development.jetty9.JettyContainerService$ScannerListener.fileChanged(JettyContainerService.java:427)
+	at org.eclipse.jetty.util.Scanner.reportChange(Scanner.java:664)
+	at org.eclipse.jetty.util.Scanner.reportDifferences(Scanner.java:532)
+	at org.eclipse.jetty.util.Scanner.scan(Scanner.java:392)
+	at org.eclipse.jetty.util.Scanner$1.run(Scanner.java:329)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+
+May 29, 2018 11:22:06 AM com.google.appengine.tools.development.SystemPropertiesManager setSystemProperties
+INFO: Overwriting system property key 'java.util.logging.config.file', value 'C:\Program Files (x86)\Google\Cloud SDK\google-cloud-sdk\platform\google_appengine\google\appengine\tools\java\config\sdk\logging.properties' with value 'WEB-INF/classes/logging.properties' from 'C:\Users\User.FULL417-WIN.001\eclipse-workspace\gradleresteasy\build\exploded-gradleresteasy\WEB-INF\appengine-web.xml'
+2018-05-29 11:22:06.964:INFO:oejs.Server:Scanner-0: jetty-9.3.18.v20170406
+2018-05-29 11:22:09.988:INFO:oeja.AnnotationConfiguration:Scanner-0: Scanning elapsed time=2781ms
+140 [Scanner-0] INFO org.jboss.resteasy.spi.ResteasyDeployment - Deploying javax.ws.rs.core.Application: class resteasySample.RestEasyApp
+146 [Scanner-0] INFO org.jboss.resteasy.spi.ResteasyDeployment - Adding singleton resource resteasySample.IndexService from Application class resteasySample.RestEasyApp
+146 [Scanner-0] INFO org.jboss.resteasy.spi.ResteasyDeployment - Adding singleton resource resteasySample.RESTEasyHelloWorldService from Application class resteasySample.RestEasyApp
+2018-05-29 11:22:10.513:INFO:oejsh.ContextHandler:Scanner-0: Started c.g.a.t.d.j.DevAppEngineWebAppContext@5c6d5410{/,file:///C:/Users/User.FULL417-WIN.001/eclipse-workspace/gradleresteasy/build/exploded-gradleresteasy/,AVAILABLE}{C:\Users\User.FULL417-WIN.001\eclipse-workspace\gradleresteasy\build\exploded-gradleresteasy}
+2018-05-29 11:22:10.518:INFO:oejs.AbstractConnector:Scanner-0: Started NetworkTrafficSelectChannelConnector@5629510{HTTP/1.1,[http/1.1]}{localhost:8080}
+2018-05-29 11:22:10.519:INFO:oejs.Server:Scanner-0: Started @6026276ms
+May 29, 2018 11:36:45 AM com.google.appengine.tools.development.jetty9.JettyContainerService$ScannerListener fileChanged
+INFO: C:\Users\User.FULL417-WIN.001\eclipse-workspace\gradleresteasy\build\exploded-gradleresteasy\WEB-INF\appengine-web.xml updated, reloading the webapp!
+2018-05-29 11:36:45.971:INFO:oejsh.ContextHandler:Scanner-0: Stopped c.g.a.t.d.j.DevAppEngineWebAppContext@5c6d5410{/,file:///C:/Users/User.FULL417-WIN.001/eclipse-workspace/gradleresteasy/build/exploded-gradleresteasy/,UNAVAILABLE}{C:\Users\User.FULL417-WIN.001\eclipse-workspace\gradleresteasy\build\exploded-gradleresteasy}
+2018-05-29 11:36:45.974:INFO:oejs.AbstractConnector:Scanner-0: Stopped NetworkTrafficSelectChannelConnector@5629510{HTTP/1.1,[http/1.1]}{localhost:8080}
+May 29, 2018 11:36:45 AM com.google.appengine.tools.development.LoggingConfigurationManager loadPropertiesFile
+WARNING: Unable to load properties file, C:\Users\User.FULL417-WIN.001\eclipse-workspace\gradleresteasy\build\exploded-gradleresteasy\WEB-INF\classes\logging.properties
+java.io.FileNotFoundException: C:\Users\User.FULL417-WIN.001\eclipse-workspace\gradleresteasy\build\exploded-gradleresteasy\WEB-INF\classes\logging.properties (The system cannot find the file specified)
+	at java.io.FileInputStream.open0(Native Method)
+	at java.io.FileInputStream.open(FileInputStream.java:195)
+	at java.io.FileInputStream.<init>(FileInputStream.java:138)
+	at com.google.appengine.tools.development.LoggingConfigurationManager.loadPropertiesFile(LoggingConfigurationManager.java:170)
+	at com.google.appengine.tools.development.LoggingConfigurationManager.read(LoggingConfigurationManager.java:78)
+	at com.google.appengine.tools.development.ApplicationConfigurationManager.validateAndRegisterGlobalValues(ApplicationConfigurationManager.java:183)
+	at com.google.appengine.tools.development.ApplicationConfigurationManager.access$400(ApplicationConfigurationManager.java:31)
+	at com.google.appengine.tools.development.ApplicationConfigurationManager$WarModuleConfigurationHandle.readConfiguration(ApplicationConfigurationManager.java:443)
+	at com.google.appengine.tools.development.jetty9.JettyContainerService.reloadWebApp(JettyContainerService.java:488)
+	at com.google.appengine.tools.development.jetty9.JettyContainerService$ScannerListener.fileChanged(JettyContainerService.java:427)
+	at org.eclipse.jetty.util.Scanner.reportChange(Scanner.java:664)
+	at org.eclipse.jetty.util.Scanner.reportDifferences(Scanner.java:532)
+	at org.eclipse.jetty.util.Scanner.scan(Scanner.java:392)
+	at org.eclipse.jetty.util.Scanner$1.run(Scanner.java:329)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+
+May 29, 2018 11:36:45 AM com.google.appengine.tools.development.SystemPropertiesManager setSystemProperties
+INFO: Overwriting system property key 'java.util.logging.config.file', value 'C:\Program Files (x86)\Google\Cloud SDK\google-cloud-sdk\platform\google_appengine\google\appengine\tools\java\config\sdk\logging.properties' with value 'WEB-INF/classes/logging.properties' from 'C:\Users\User.FULL417-WIN.001\eclipse-workspace\gradleresteasy\build\exploded-gradleresteasy\WEB-INF\appengine-web.xml'
+2018-05-29 11:36:46.063:INFO:oejs.Server:Scanner-0: jetty-9.3.18.v20170406
+2018-05-29 11:36:47.835:INFO:oeja.AnnotationConfiguration:Scanner-0: Scanning elapsed time=1617ms
+129 [Scanner-0] INFO org.jboss.resteasy.spi.ResteasyDeployment - Deploying javax.ws.rs.core.Application: class resteasySample.RestEasyApp
+131 [Scanner-0] INFO org.jboss.resteasy.spi.ResteasyDeployment - Adding singleton resource resteasySample.IndexService from Application class resteasySample.RestEasyApp
+131 [Scanner-0] INFO org.jboss.resteasy.spi.ResteasyDeployment - Adding singleton resource resteasySample.RESTEasyHelloWorldService from Application class resteasySample.RestEasyApp
+2018-05-29 11:36:48.299:INFO:oejsh.ContextHandler:Scanner-0: Started c.g.a.t.d.j.DevAppEngineWebAppContext@4e1a6e13{/,file:///C:/Users/User.FULL417-WIN.001/eclipse-workspace/gradleresteasy/build/exploded-gradleresteasy/,AVAILABLE}{C:\Users\User.FULL417-WIN.001\eclipse-workspace\gradleresteasy\build\exploded-gradleresteasy}
+2018-05-29 11:36:48.305:INFO:oejs.AbstractConnector:Scanner-0: Started NetworkTrafficSelectChannelConnector@5629510{HTTP/1.1,[http/1.1]}{localhost:8080}
+2018-05-29 11:36:48.306:INFO:oejs.Server:Scanner-0: Started @6904064ms

@@ -71,7 +71,7 @@ public class IndexService {
 	}
 
 	@GET
-	@Path("/oauth/callback")
+	@Path("/oauth/callback/signin")
 	@Produces(MediaType.TEXT_HTML)
 	public Response oAuthCallBack(@QueryParam("code") String authcode, @QueryParam("error") String error,
 			@Context HttpServletRequest request, @Context HttpServletResponse response)
@@ -91,7 +91,7 @@ public class IndexService {
 			WebTarget target = client.target("https://www.googleapis.com/oauth2/v4/token");
 			Form form = new Form();
 			form.param("code", authcode).param("client_id", clientid).param("client_secret", clientsecret)
-					.param("redirect_uri", "https://login-signup-ui.appspot.com/oauth/callback")
+					.param("redirect_uri", "https://login-signup-ui.appspot.com/oauth/callback/signin")
 					.param("grant_type", "authorization_code");
 			Entity<Form> entity = Entity.form(form);
 			Response tokenResponse = target.request(MediaType.APPLICATION_JSON).post(entity);
@@ -140,14 +140,88 @@ public class IndexService {
 
 	}
 	@GET
+	@Path("/oauth/callback/signup")
+	@Produces(MediaType.TEXT_HTML)
+	public Response oAuthCallBacksignup(@QueryParam("code") String authcode, @QueryParam("error") String error,
+			@Context HttpServletRequest request, @Context HttpServletResponse response)
+			throws IOException, ParseException, ServletException, URISyntaxException {
+		String clientid = "1062085927305-i99h2o72tn8ptdh8ft7kne26pkosbtni.apps.googleusercontent.com";
+		String clientsecret = "pbJMIMuM1UX6LDG68yH7zKNM";
+		java.net.URI locationerror = new java.net.URI("/index.jsp?message=Google%20signup%20failed");
+		java.net.URI locationerror2 = new java.net.URI("/index.jsp?message=User%20Already%20Registered");
+		java.net.URI location = new java.net.URI("/index.jsp");
+		
+
+		if (error != null) {
+			    return Response.temporaryRedirect(locationerror).build();
+
+		} else {
+			Client client = ClientBuilder.newClient();
+			WebTarget target = client.target("https://www.googleapis.com/oauth2/v4/token");
+			Form form = new Form();
+			form.param("code", authcode).param("client_id", clientid).param("client_secret", clientsecret)
+					.param("redirect_uri", "https://login-signup-ui.appspot.com/oauth/callback/signup")
+					.param("grant_type", "authorization_code");
+			Entity<Form> entity = Entity.form(form);
+			Response tokenResponse = target.request(MediaType.APPLICATION_JSON).post(entity);
+			if (tokenResponse.getStatus() == 200) {
+				String tokens = tokenResponse.readEntity(String.class);
+				tokenResponse.close();
+				JSONParser parser = new JSONParser();
+				JSONObject json = (JSONObject) parser.parse(tokens);
+				target = client.target("https://www.googleapis.com/oauth2/v2/userinfo").queryParam("access_token",
+						json.get("access_token"));
+				Response userInfoResponse = target.request(MediaType.APPLICATION_JSON).get();
+				if (userInfoResponse.getStatus() == 200) {
+					String userInfoString = userInfoResponse.readEntity(String.class);
+					userInfoResponse.close();
+					json = (JSONObject) parser.parse(userInfoString);
+					
+					Contact loginresult = ofy().load().type(Contact.class).filter("email", json.get("email")).first()
+							.now();
+					if (loginresult == null)
+					{
+						Contact user=new Contact();
+						user.setEmail((String)json.get("email"));
+						user.setName((String)json.get("given_name"));
+						user.setActive(true);
+						user.setProfilePicUrl((String)json.get("picture"));
+						ofy().save().entity(user).now();
+						HttpSession session =request.getSession();
+						session.setAttribute("userInfo", user);
+						
+				    return Response.temporaryRedirect(location).build();
+					}
+					else 
+					{
+						HttpSession session =request.getSession();
+						session.invalidate();
+				    return Response.temporaryRedirect(locationerror2).build();
+					}
+					
+
+				}
+
+			} else {
+				 return Response.temporaryRedirect(locationerror).build();
+			}
+
+		}
+		return Response.temporaryRedirect(locationerror).build();
+
+	}
+	@GET
 	@Path("/token")
 	@Produces(MediaType.TEXT_HTML)
-	public Response resetpassword(@QueryParam("token") String token) throws URISyntaxException
+	public Response resetpassword(@QueryParam("token") String token, @Context HttpServletRequest request) throws URISyntaxException
 	{
+		HttpSession session = request.getSession();
+		session.invalidate();
 		String[] parts=token.split("X");
 		Contact user=ofy().load().type(Contact.class).id(Long.parseLong(parts[0])).now();
 		if(user==null||!(token.equals(user.getResetToken())))
 		{
+			
 			java.net.URI locationerror = new java.net.URI("/index.jsp?message=invalid%20token");
 			return Response.temporaryRedirect(locationerror).build();
 		}

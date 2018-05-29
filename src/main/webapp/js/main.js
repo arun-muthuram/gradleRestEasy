@@ -1,6 +1,7 @@
 document.getElementById("signupb").addEventListener("click", register);
 document.getElementById("signupl").addEventListener("click", login);
-document.getElementById("gsignB").addEventListener("click", oauth);
+document.getElementById("gsignB").addEventListener("click", oauthsignin);
+document.getElementById("gsignupB").addEventListener("click", oauthsignup);
 document.addEventListener("DOMContentLoaded", function(){
 	var errormessage=document.getElementById("error").innerHTML;
 	if(errormessage!="")
@@ -28,7 +29,7 @@ function register() {
 				else {
 					document.getElementById("error").innerHTML = parsedResult.message;
 					setTimeout(function() {
-						document.getElementById("error").innerHTML = ""
+						document.getElementById("error").innerHTML = "      \xa0         \xa0";
 					}, 3000);
 				}
 			}
@@ -53,7 +54,7 @@ function login() {
 			else {
 				document.getElementById("error").innerHTML = parsedResult.message;
 				setTimeout(function() {
-					document.getElementById("error").innerHTML = ""
+					document.getElementById("error").innerHTML = "     \xa0       \xa0";
 				}, 3000);
 			}
 		}
@@ -71,45 +72,53 @@ function validate(name, email, password, phonenumber) {
 	if (!nameregex.test(name)) {
 		document.getElementById("error").innerHTML = "Enter a valid name";
 		setTimeout(function() {
-			document.getElementById("error").innerHTML = ""
+			document.getElementById("error").innerHTML = "       \xa0         \xa0";
 		}, 3000);
 		return false;
 	}
 	if (!emailregex.test(email)) {
 		document.getElementById("error").innerHTML = "Enter a valid email";
 		setTimeout(function() {
-			document.getElementById("error").innerHTML = ""
+			document.getElementById("error").innerHTML = "       \xa0         \xa0";
 		}, 3000);
 		return false;
 	}
 	if (!passregex.test(password)) {
 		document.getElementById("error").innerHTML = "Enter a valid password- minimum 6 characters, no spaces";
 		setTimeout(function() {
-			document.getElementById("error").innerHTML = ""
+			document.getElementById("error").innerHTML = "       \xa0         \xa0";
 		}, 3000);
 		return false;
 	}
 	if (phonenumber!=""&&!phoneregex.test(phonenumber)) {
 		document.getElementById("error").innerHTML = "Enter a valid 10 digit phonenumber";
 		setTimeout(function() {
-			document.getElementById("error").innerHTML = ""
+			document.getElementById("error").innerHTML = "       \xa0         \xa0";
 		}, 3000);
 		return false;
 	}
 	return true;
 
 }
-function oauth()
+function oauthsignin()
 {
 	var url="https://accounts.google.com/o/oauth2/v2/auth?"
 		 +"scope=https://www.googleapis.com/auth/userinfo.email&"
-		 +"redirect_uri=https://login-signup-ui.appspot.com/oauth/callback&"
+		 +"redirect_uri=https://login-signup-ui.appspot.com/oauth/callback/signin&"
 		 +"response_type=code&"+
 		 "client_id=1062085927305-i99h2o72tn8ptdh8ft7kne26pkosbtni.apps.googleusercontent.com";
 	window.location=url;
-
-
 }
+function oauthsignup()
+{
+	var url="https://accounts.google.com/o/oauth2/v2/auth?"
+		 +"scope=https://www.googleapis.com/auth/userinfo.email&"
+		 +"redirect_uri=https://login-signup-ui.appspot.com/oauth/callback/signup&"
+		 +"response_type=code&"+
+		 "client_id=1062085927305-i99h2o72tn8ptdh8ft7kne26pkosbtni.apps.googleusercontent.com";
+	window.location=url;
+}
+
 function forgotpassword()
 {
 	var email=document.getElementById("emailP").value;
@@ -117,7 +126,7 @@ function forgotpassword()
 	if (!emailregex.test(email)) {
 		document.getElementById("modalpasswordError").innerHTML = "Enter a valid email";
 		setTimeout(function() {
-			document.getElementById("modalpasswordError").innerHTML = ""
+			document.getElementById("modalpasswordError").innerHTML = " \xa0           \xa0";
 		}, 3000);
 	}
 	else
@@ -136,14 +145,14 @@ function forgotpassword()
 					document.getElementById("closemodalpass").click();
 					 document.getElementById("error").innerHTML = "Password reset link has been sent. Please visit your email.";
 						setTimeout(function() {
-							document.getElementById("error").innerHTML = ""
+							document.getElementById("error").innerHTML = "  \xa0         \xa0";
 						}, 3000);
 					 
 					}
 				else {
 					document.getElementById("modalpasswordError").innerHTML = parsedResult.message;
 					setTimeout(function() {
-						document.getElementById("modalpasswordError").innerHTML = ""
+						document.getElementById("modalpasswordError").innerHTML = "     \xa0       \xa0";
 					}, 3000);
 					document.getElementById("error").innerHTML = "Please wait";
 				}

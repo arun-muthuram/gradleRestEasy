@@ -33,7 +33,7 @@ if((Contact)session.getAttribute("userInfo")!=null)
 			<div class="row top-buffer"></div>
 			<div
 				class="col-xs-10 col-md-6 col-sm-8 col-lg-6 col-md-offset-3 col-sm-offset-2 col-xs-offset-1">
-				<div class="panel panel-body">
+				<div class="panel panel-body" style="margin-top: -69px;">
 					<ul id="rowtabs" class="nav nav-tabs">
 						<li id="Signup" ><a data-toggle="tab"
 							href="#signup">Signup</a></li>
@@ -66,10 +66,11 @@ if((Contact)session.getAttribute("userInfo")!=null)
 										class="form-control" id="phonenumber"
 										placeholder="Enter phonenumber" name="phonenumber" required>
 								</div>
-								<div class="buttons">
+								<div class="buttons" style="margin-top: -26px;">
 									<button id="signupb" type="button" class="btn-default btn-lg">Signup</button>
 									<button id="reset" type="reset" class="btn-default btn-lg">Reset</button>
 								</div>
+								<a id="gsignupB" style="cursor: pointer;"><img src="signup-google.png" style="width: 285px;margin-left: 112px;height: 42px;border-radius: 44px;margin-top: -9px;"></a>
 							</form>
 						</div>
 						<div id="login" class="tab-pane fade in active">

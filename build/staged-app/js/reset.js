@@ -7,13 +7,13 @@ function resetuserpassword()
 	if (!passregex.test(password)) {
 		document.getElementById("error").innerHTML = "Enter a valid password - minimum 6 characters, no spaces";
 		setTimeout(function() {
-			document.getElementById("error").innerHTML = ""
+			document.getElementById("error").innerHTML = "       \xa0         \xa0";
 		}, 3000);}
 		else if(repass!=password)
 			{
 			document.getElementById("error").innerHTML = "Both passwords should match";
 			setTimeout(function() {
-				document.getElementById("error").innerHTML = ""
+				document.getElementById("error").innerHTML = "       \xa0         \xa0";
 			}, 3000);}
 		else
 			{
@@ -31,7 +31,7 @@ function resetuserpassword()
 					else {
 						document.getElementById("error").innerHTML = parsedResult.message;
 						setTimeout(function() {
-							document.getElementById("error").innerHTML = ""
+							document.getElementById("error").innerHTML = "       \xa0         \xa0";
 						}, 3000);
 					}
 				}

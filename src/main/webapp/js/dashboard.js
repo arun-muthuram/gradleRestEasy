@@ -242,7 +242,7 @@ function update() {
 					dashboard();
 					document.getElementById("werror").innerHTML = parsedResult.message;
 					setTimeout(function() {
-						document.getElementById("werror").innerHTML = ""
+						document.getElementById("werror").innerHTML = "       \xa0         \xa0";
 					}, 3000);
 
 				} else {
@@ -297,21 +297,21 @@ function validate(name, email, phonenumber) {
 	if (!nameregex.test(name)) {
 		document.getElementById("werror").innerHTML = "Enter a valid name";
 		setTimeout(function() {
-			document.getElementById("werror").innerHTML = ""
+			document.getElementById("werror").innerHTML = "       \xa0         \xa0";
 		}, 3000);
 		return false;
 	}
 	if (!emailregex.test(email)) {
 		document.getElementById("werror").innerHTML = "Enter a valid email";
 		setTimeout(function() {
-			document.getElementById("werror").innerHTML = ""
+			document.getElementById("werror").innerHTML = "       \xa0         \xa0";
 		}, 3000);
 		return false;
 	}
 	if (!phoneregex.test(phonenumber)) {
 		document.getElementById("werror").innerHTML = "Enter a valid 10 digit phonenumber";
 		setTimeout(function() {
-			document.getElementById("werror").innerHTML = ""
+			document.getElementById("werror").innerHTML = "       \xa0         \xa0";
 		}, 3000);
 		return false;
 	}
@@ -480,7 +480,15 @@ loadpage();
 }
 function getsortedentries()
 {
-validatedates();	
+if(validatedates())
+	{
+	var startdate=new Date(document.getElementById("fromdate").value).getTime();
+	var enddate=new Date(document.getElementById("todate").value).getTime();
+	var xHttp=new XMLHttpRequest();
+	var url="";
+	
+	}
+
 }
 function validatedates()
 {
@@ -491,7 +499,7 @@ if(fromdate=="")
 	{
 	document.getElementById("sortentryError").innerHTML = "Enter a start date";
 	setTimeout(function() {
-		document.getElementById("sortentryError").innerHTML = ""
+		document.getElementById("sortentryError").innerHTML = "       \xa0         \xa0";
 	}, 3000);
 	return false;
 	}
@@ -499,10 +507,19 @@ if(todate=="")
 	{
 	document.getElementById("sortentryError").innerHTML = "Enter a end date";
 	setTimeout(function() {
-		document.getElementById("sortentryError").innerHTML = ""
+		document.getElementById("sortentryError").innerHTML = "       \xa0         \xa0";
 	}, 3000);
 	return false;
 	}
+    if(todate<fromdate)
+    	{
+    	document.getElementById("sortentryError").innerHTML = "End date must be larger than start date";
+    	setTimeout(function() {
+    		document.getElementById("sortentryError").innerHTML = "       \xa0         \xa0";
+    	}, 3000);
+    	return false;
+    	}
+    return true;
 }
 function setdeleteentryid(event)
 {

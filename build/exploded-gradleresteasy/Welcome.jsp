@@ -143,7 +143,7 @@ UploadOptions uploadOptions=Builder.withGoogleStorageBucketName("login-signup-ui
 		Current Week<span id="totaltime" style="margin-left: 79px">00h,
 			00m, 00s. </span>
 	</button>
-	<button id="sortEntryB" class="sortentryB" data-toggle="modal"
+	<button style="display:none" id="sortEntryB" class="sortentryB" data-toggle="modal"
 		data-target="#sortentriesmodal">
 		<span class="glyphicon glyphicon-calendar"></span>
 	</button>
